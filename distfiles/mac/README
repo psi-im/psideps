@@ -5,7 +5,12 @@ set environment variables in order for anything to work:
 
   DYLD_LIBRARY_PATH to lib
   GST_PLUGIN_PATH to lib/gstreamer-0.10
+
+And one of these:
+
   GST_PLUGIN_SCANNER to libexec/gstreamer-0.10/gst-plugin-scanner
+    or
+  GST_REGISTRY_FORK=no
 
 Even if you use install_name_tool to bundle the libs within an application,
 you'll still need to set the GST_* variables.
