@@ -1,0 +1,38 @@
+Prerequisites
+-------------
+
+  Mac:
+    Xcode
+
+Download the source packages
+----------------------------
+
+  Mac:
+    ./get_packages_mac.sh
+
+This will download all needed source files into the "packages" subdirectory.
+Only files not already present are downloaded. If all files are present, then
+this command does nothing.
+
+Build the packages
+------------------
+
+Specify a prefix as the first argument:
+
+  Mac:
+    ./build_mac.sh /psidepsbase
+
+You'll need write access to the prefix. The script does not use "sudo" when
+performing "make install" operations, so the prefix directory may need to
+exist in advance with correct permissions. Only packages not already built
+will be built. If a package fails to build, this script will refuse to
+continue until you fix the problem.
+
+For each package to be built:
+  1) a "build/{packagename}" directory is created as a workspace
+  2) the package is attempted to be built, and installed into the prefix
+  3) on success, a "build/{packagename}/ok" file is touched
+
+The build script will only build a package if the "build/{packagename}"
+directory does not exist, and it will only advance to the next package if the
+directory exists and it contains an "ok" file.
