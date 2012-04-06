@@ -1,0 +1,14 @@
+This is a build of GStreamer 0.10.36 with patches for Mac 10.5+.
+
+All library paths have been removed from the binary files. You will need to
+set environment variables in order for anything to work:
+
+  DYLD_LIBRARY_PATH to lib
+  GST_PLUGIN_PATH to lib/gstreamer-0.10
+  GST_PLUGIN_SCANNER to libexec/gstreamer-0.10/gst-plugin-scanner
+
+Even if you use install_name_tool to bundle the libs within an application,
+you'll still need to set the GST_* variables.
+
+If all is well, you should be able to run gst-inspect-0.10 from the bin
+directory and see a big list of elements.
