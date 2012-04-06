@@ -1,0 +1,19 @@
+diff -ru gst-plugins-good-0.10.31.orig/gst/udp/gstmultiudpsink.c gst-plugins-good-0.10.31/gst/udp/gstmultiudpsink.c
+--- gst-plugins-good-0.10.31.orig/gst/udp/gstmultiudpsink.c	2012-02-15 15:48:07.000000000 -0800
++++ gst-plugins-good-0.10.31/gst/udp/gstmultiudpsink.c	2012-04-05 21:24:43.215293274 -0700
+@@ -935,12 +935,12 @@
+   if (sink->sockfd == -1) {
+     GST_DEBUG_OBJECT (sink, "creating sockets");
+     /* create sender socket try IP6, fall back to IP4 */
+-    sink->ss_family = AF_INET6;
+-    if ((sink->sock = socket (AF_INET6, SOCK_DGRAM, 0)) == -1) {
++    //sink->ss_family = AF_INET6;
++    //if ((sink->sock = socket (AF_INET6, SOCK_DGRAM, 0)) == -1) {
+       sink->ss_family = AF_INET;
+       if ((sink->sock = socket (AF_INET, SOCK_DGRAM, 0)) == -1)
+         goto no_socket;
+-    }
++    //}
+ 
+     GST_DEBUG_OBJECT (sink, "have socket");
+     sink->externalfd = FALSE;

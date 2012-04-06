@@ -21,7 +21,10 @@ build_package() {
 	if [ ! -d "build/$1" ]; then
 		echo "$1: building..."
 		mkdir -p build/$1
-		(cd build/$1 && build_package_$1)
+		OLD_PWD=$PWD
+		cd build/$1
+		build_package_$1
+		cd $OLD_PWD
 		touch "build/$1/ok"
 	else
 		if [ ! -f "build/$1/ok" ]; then
@@ -128,6 +131,7 @@ build_package gstbase
 build_package_gstgood() {
 	tar zxvf ../../packages/$gstgood_file
 	cd gst-plugins-good-*
+	patch -p1 < ../../../patches/udp_noipv6.diff
 	CFLAGS=-I$base_prefix/include LDFLAGS=-L$base_prefix/lib CC="gcc -arch i386" CXX="g++ -arch i386" ./configure --host=i386-apple-darwin --prefix=$base_prefix --disable-osx_video
 	make && make install
 }
