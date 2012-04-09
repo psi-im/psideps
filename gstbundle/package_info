@@ -1,3 +1,5 @@
+PACKAGES="gettext glib pkgconfig libjpeg libogg libvorbis libtheora libspeex gstreamer gstbase gstgood"
+
 gettext_file=gettext-0.18.1.1.tar.gz
 gettext_url=http://ftp.gnu.org/pub/gnu/gettext/gettext-0.18.1.1.tar.gz
 

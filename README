@@ -4,35 +4,31 @@ Prerequisites
   Mac:
     Xcode
 
-Download the source packages
-----------------------------
+  Ensure you have access to create and/or write to the /psidepsbase directory.
+  All modules are configured to use a prefix within that directory, and "sudo"
+  is not used when running "make install" operations. It should be enough to
+  create the directory in advance with correct permissions.
 
-  Mac:
-    ./get_packages_mac.sh
+Building a module
+-----------------
 
-This will download all needed source files into the "packages" subdirectory.
-Only files not already present are downloaded. If all files are present, then
-this command does nothing.
+  cd module_name
+  make
+ 
+  That's it. If all goes well, you'll end up with some .bz2 file.
 
-Build the packages
-------------------
+How it works
+------------
 
-Specify a prefix as the first argument:
-
-  Mac:
-    ./build_mac.sh /psidepsbase
-
-You'll need write access to the prefix. The script does not use "sudo" when
-performing "make install" operations, so the prefix directory may need to
-exist in advance with correct permissions. Only packages not already built
-will be built. If a package fails to build, this script will refuse to
-continue until you fix the problem.
+Only packages not already built within a module will be built when "make" is
+run. If a package fails to build, the build process will refuse to continue
+until you fix the problem.
 
 For each package to be built:
-  1) a "build/{packagename}" directory is created as a workspace
+  1) a "build/{package/arch name}" directory is created as a workspace
   2) the package is attempted to be built, and installed into the prefix
-  3) on success, a "build/{packagename}/ok" file is touched
+  3) on success, a "build/{package/arch name}/ok" file is touched
 
-The build script will only build a package if the "build/{packagename}"
+The build script will only build a package if the "build/{package/arch name}"
 directory does not exist, and it will only advance to the next package if the
 directory exists and it contains an "ok" file.
