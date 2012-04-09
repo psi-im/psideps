@@ -1,8 +1,19 @@
-include package_info
-VERSION=0.10.36-mac
-PREFIX=/psidepsbase/gstbundle
+UNAME := $(shell uname)
+PREFIX = /psidepsbase/gstbundle
 
-all: dist
+include package_info
+
+ifeq ($(UNAME), Darwin)
+VERSION = 0.10.36-mac
+all: default-mac
+else ifeq ($(UNAME), MINGW32_NT-6.1)
+VERSION = 0.10.36-win
+all: default-mingw
+else
+all: default-unknown
+endif
+
+default-mac: dist
 
 clean:
 	rm -rf build $(PREFIX) dist
@@ -11,47 +22,47 @@ dist: gstbundle-$(VERSION).tar.bz2
 
 packages/$(gettext_file):
 	mkdir -p packages
-	./fetch.sh $(gettext_url) packages/$(gettext_file)
+	../fetch.sh $(gettext_url) packages/$(gettext_file)
 
 packages/$(glib_file):
 	mkdir -p packages
-	./fetch.sh $(glib_url) packages/$(glib_file)
+	../fetch.sh $(glib_url) packages/$(glib_file)
 
 packages/$(pkgconfig_file):
 	mkdir -p packages
-	./fetch.sh $(pkgconfig_url) packages/$(pkgconfig_file)
+	../fetch.sh $(pkgconfig_url) packages/$(pkgconfig_file)
 
 packages/$(libjpeg_file):
 	mkdir -p packages
-	./fetch.sh $(libjpeg_url) packages/$(libjpeg_file)
+	../fetch.sh $(libjpeg_url) packages/$(libjpeg_file)
 
 packages/$(libogg_file):
 	mkdir -p packages
-	./fetch.sh $(libogg_url) packages/$(libogg_file)
+	../fetch.sh $(libogg_url) packages/$(libogg_file)
 
 packages/$(libvorbis_file):
 	mkdir -p packages
-	./fetch.sh $(libvorbis_url) packages/$(libvorbis_file)
+	../fetch.sh $(libvorbis_url) packages/$(libvorbis_file)
 
 packages/$(libtheora_file):
 	mkdir -p packages
-	./fetch.sh $(libtheora_url) packages/$(libtheora_file)
+	../fetch.sh $(libtheora_url) packages/$(libtheora_file)
 
 packages/$(libspeex_file):
 	mkdir -p packages
-	./fetch.sh $(libspeex_url) packages/$(libspeex_file)
+	../fetch.sh $(libspeex_url) packages/$(libspeex_file)
 
 packages/$(gstreamer_file):
 	mkdir -p packages
-	./fetch.sh $(gstreamer_url) packages/$(gstreamer_file)
+	../fetch.sh $(gstreamer_url) packages/$(gstreamer_file)
 
 packages/$(gstbase_file):
 	mkdir -p packages
-	./fetch.sh $(gstbase_url) packages/$(gstbase_file)
+	../fetch.sh $(gstbase_url) packages/$(gstbase_file)
 
 packages/$(gstgood_file):
 	mkdir -p packages
-	./fetch.sh $(gstgood_url) packages/$(gstgood_file)
+	../fetch.sh $(gstgood_url) packages/$(gstgood_file)
 
 build/i386/gettext/ok: packages/$(gettext_file)
 	mkdir -p build
