@@ -31,7 +31,6 @@ build_package() {
 		cd build/$2/$1
 		build_package_$1
 		cd $old_pwd
-		touch "build/$2/$1/ok"
 	else
 		echo "$1/$2: failed on previous run. remove the \"build/$2/$1\" directory to try again"
 		exit 1
@@ -39,9 +38,12 @@ build_package() {
 }
 
 build_package_zlib() {
-	tar zxvf $pkgdir/$zlib_file
+	tar jxvf $pkgdir/$zlib_file
 	cd zlib-*
 	make -f win32/Makefile.gcc
+	make -p $arch_prefix/bin
+	make -p $arch_prefix/include
+	make -p $arch_prefix/lib
 	cp zlib1.dll $arch_prefix/bin
 	cp zconf.h zlib.h $arch_prefix/include
 	cp libz.dll.a $arch_prefix/lib

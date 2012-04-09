@@ -34,7 +34,6 @@ build_package() {
 		cd build/$2/$1
 		build_package_$1
 		cd $old_pwd
-		touch "build/$2/$1/ok"
 	else
 		echo "$1/$2: failed on previous run. remove the \"build/$2/$1\" directory to try again"
 		exit 1
