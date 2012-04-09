@@ -1,24 +1,45 @@
 UNAME := $(shell uname)
 PREFIX = /psidepsbase/gstbundle
+VERSION = 0.10.36
 
 include package_info
 
 ifeq ($(UNAME), Darwin)
-VERSION = 0.10.36-mac
+PLATFORM = mac
 all: default-mac
 else ifeq ($(UNAME), MINGW32_NT-6.1)
-VERSION = 0.10.36-win
+PLATFORM = win
 all: default-mingw
 else
 all: default-unknown
 endif
 
-default-mac: dist
+default-mac: dist-mac
+
+default-mingw: dist-mingw
 
 clean:
 	rm -rf build $(PREFIX) dist
 
-dist: gstbundle-$(VERSION).tar.bz2
+distclean: clean
+	rm -rf packages
+ifeq ($(PLATFORM), mac)
+	rm -f gstbundle-$(VERSION)-mac.tar.bz2
+else
+	rm -f gstbundle-$(VERSION)-win.zip
+endif
+
+dist-mac: gstbundle-$(VERSION)-mac.tar.bz2
+
+dist-mingw: gstbundle-$(VERSION)-win.zip
+
+packages/$(libiconv_file):
+	mkdir -p packages
+	../fetch.sh $(libiconv_url) packages/$(libiconv_file)
+
+packages/$(libffi_file):
+	mkdir -p packages
+	../fetch.sh $(libffi_url) packages/$(libffi_file)
 
 packages/$(gettext_file):
 	mkdir -p packages
@@ -63,6 +84,16 @@ packages/$(gstbase_file):
 packages/$(gstgood_file):
 	mkdir -p packages
 	../fetch.sh $(gstgood_url) packages/$(gstgood_file)
+
+build/i386/libiconv/ok: packages/$(libiconv_file)
+	mkdir -p build
+	./build_package.sh libiconv i386 $(PREFIX) $(PWD)/install
+	touch build/i386/libiconv/ok
+
+build/i386/libffi/ok: packages/$(libffi_file)
+	mkdir -p build
+	./build_package.sh libffi i386 $(PREFIX) $(PWD)/install
+	touch build/i386/libffi/ok
 
 build/i386/gettext/ok: packages/$(gettext_file)
 	mkdir -p build
@@ -174,8 +205,15 @@ build/x86_64/gstgood/ok: packages/$(gstgood_file)
 	./build_package.sh gstgood x86_64 $(PREFIX) $(PWD)/install
 	touch build/x86_64/gstgood/ok
 
-dist/gstbundle-$(VERSION): build/i386/gettext/ok build/x86_64/gettext/ok build/i386/glib/ok build/x86_64/glib/ok build/i386/pkgconfig/ok build/x86_64/pkgconfig/ok build/i386/libjpeg/ok build/x86_64/libjpeg/ok build/i386/libogg/ok build/x86_64/libogg/ok build/i386/libvorbis/ok build/x86_64/libvorbis/ok build/i386/libtheora/ok build/x86_64/libtheora/ok build/i386/libspeex/ok build/x86_64/libspeex/ok build/i386/gstreamer/ok build/x86_64/gstreamer/ok build/i386/gstbase/ok build/x86_64/gstbase/ok build/i386/gstgood/ok build/x86_64/gstgood/ok
-	./prep_dist.sh $(PWD)/install $(PREFIX) dist/gstbundle-$(VERSION)
+dist/gstbundle-$(VERSION)-mac: build/i386/gettext/ok build/x86_64/gettext/ok build/i386/glib/ok build/x86_64/glib/ok build/i386/pkgconfig/ok build/x86_64/pkgconfig/ok build/i386/libjpeg/ok build/x86_64/libjpeg/ok build/i386/libogg/ok build/x86_64/libogg/ok build/i386/libvorbis/ok build/x86_64/libvorbis/ok build/i386/libtheora/ok build/x86_64/libtheora/ok build/i386/libspeex/ok build/x86_64/libspeex/ok build/i386/gstreamer/ok build/x86_64/gstreamer/ok build/i386/gstbase/ok build/x86_64/gstbase/ok build/i386/gstgood/ok build/x86_64/gstgood/ok
+	./prep_dist.sh $(PWD)/install $(PREFIX) dist/gstbundle-$(VERSION)-mac
 
-gstbundle-$(VERSION).tar.bz2: dist/gstbundle-$(VERSION)
-	cd dist && tar jcvf ../gstbundle-$(VERSION).tar.bz2 gstbundle-$(VERSION)
+dist/gstbundle-$(VERSION)-win: build/i386/libiconv/ok build/i386/libffi/ok
+	./prep_dist.sh $(PWD)/install $(PREFIX) dist/gstbundle-$(VERSION)-win
+
+gstbundle-$(VERSION)-mac.tar.bz2: dist/gstbundle-$(VERSION)-mac
+	cd dist && tar jcvf ../gstbundle-$(VERSION)-mac.tar.bz2 gstbundle-$(VERSION)-mac
+
+gstbundle-$(VERSION)-win.zip: dist/gstbundle-$(VERSION)-win
+	rm -f gstbundle-$(VERSION)-win.zip
+	cd dist && zip -r ../gstbundle-$(VERSION)-win.zip gstbundle-$(VERSION)-win

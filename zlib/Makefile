@@ -1,10 +1,11 @@
 UNAME := $(shell uname)
 PREFIX = /psidepsbase/zlib
+VERSION = 1.2.6
 
 include package_info
 
 ifeq ($(UNAME), MINGW32_NT-6.1)
-VERSION = 1.2.6-win
+PLATFORM = win
 all: default-mingw
 else
 all: default-unknown
@@ -15,7 +16,11 @@ default-mingw: dist
 clean:
 	rm -rf build $(PREFIX) dist
 
-dist: zlib-$(VERSION).zip
+distclean: clean
+	rm -rf packages
+	rm -f zlib-$(VERSION)-win.zip
+
+dist: zlib-$(VERSION)-win.zip
 
 packages/$(zlib_file):
 	mkdir -p packages
@@ -26,8 +31,9 @@ build/i386/zlib/ok: packages/$(zlib_file)
 	./build_package.sh zlib i386 $(PREFIX) $(PWD)/install
 	touch build/i386/zlib/ok
 
-dist/zlib-$(VERSION): build/i386/zlib/ok
-	./prep_dist.sh $(PWD)/install $(PREFIX) dist/zlib-$(VERSION)
+dist/zlib-$(VERSION)-win: build/i386/zlib/ok
+	./prep_dist.sh $(PWD)/install $(PREFIX) dist/zlib-$(VERSION)-win
 
-zlib-$(VERSION).zip: dist/zlib-$(VERSION)
-	cd dist && zip -r ../zlib-$(VERSION).zip zlib-$(VERSION)
+zlib-$(VERSION)-win.zip: dist/zlib-$(VERSION)-win
+	rm -f zlib-$(VERSION)-win.zip
+	cd dist && zip -r ../zlib-$(VERSION)-win.zip zlib-$(VERSION)-win

@@ -6,6 +6,16 @@ if [ $# != 4 ]; then
 	exit 1
 fi
 
+platform=`uname -s`
+if [ "$platform" == "Darwin" ]; then
+	platform=mac
+elif [ "$platform" == "MINGW32_NT-6.1" ]; then
+	platform=win
+else
+	echo "error: unsupported platform $platform"
+	exit 1
+fi
+
 source ./package_info
 
 package_name=$1
@@ -13,12 +23,15 @@ target_arch=$2
 base_prefix=$3
 destdir=$4
 
-target_platform=$target_arch-apple-darwin
+if [ "$platform" == "mac" ]; then
+	target_platform=$target_arch-apple-darwin
+	export MACOSX_DEPLOYMENT_TARGET=10.5
+fi
+
 arch_prefix=$base_prefix/$target_arch
 pkgdir=$PWD/packages
 patchdir=$PWD/patches
 
-export MACOSX_DEPLOYMENT_TARGET=10.5
 export PATH=$arch_prefix/bin:$PATH
 
 # make the install dir and ensure we can write to it
@@ -38,6 +51,22 @@ build_package() {
 		echo "$1/$2: failed on previous run. remove the \"build/$2/$1\" directory to try again"
 		exit 1
 	fi
+}
+
+build_package_libiconv() {
+	tar zxvf $pkgdir/$libiconv_file
+	cd libiconv-*
+	./configure --prefix=$arch_prefix
+	make
+	make install
+}
+
+build_package_libffi() {
+	tar zxvf $pkgdir/$libffi_file
+	cd libffi-*
+	./configure --prefix=$arch_prefix
+	make
+	make install
 }
 
 build_package_gettext() {

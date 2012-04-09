@@ -6,12 +6,24 @@ if [ $# != 3 ]; then
 	exit 1
 fi
 
+platform=`uname -s`
+if [ "$platform" == "Darwin" ]; then
+	platform=mac
+elif [ "$platform" == "MINGW32_NT-6.1" ]; then
+	platform=win
+else
+	echo "error: unsupported platform $platform"
+	exit 1
+fi
+
 #destdir=$1
 destdir=
 base_prefix=$2
 dist_base=$3
 
 mkdir -p $dist_base
+
+if [ "$platform" == "mac" ]; then
 
 TARGET_ARCHES="i386 x86_64"
 
@@ -156,3 +168,22 @@ for n in $LIBEXE_GST_FILES; do
 done
 
 cp -a distfiles/mac/README $dist_base
+
+else
+
+TARGET_ARCHES="i386"
+
+for target_arch in $TARGET_ARCHES; do
+	target_base=$destdir$base_prefix/$target_arch
+	target_dist_base=$dist_base/$target_arch
+
+	mkdir -p $target_dist_base
+	cp -a $target_base/bin $target_dist_base
+	cp -a $target_base/include $target_dist_base
+	cp -a $target_base/lib $target_dist_base
+	#cp -a $target_base/libexec $target_dist_base
+done
+
+cp -a distfiles/win/README $dist_base
+
+fi

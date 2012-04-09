@@ -1,6 +1,12 @@
 Prerequisites
 -------------
 
+  Windows:
+    MinGW/MSYS
+    wget (mingw-get install msys-wget)
+    zip (mingw-get install msys-zip)
+    Use an MSYS shell when building modules
+
   Mac:
     Xcode
 
@@ -15,7 +21,16 @@ Building a module
   cd module_name
   make
  
-  That's it. If all goes well, you'll end up with some .bz2 file.
+  That's it. If all goes well, you'll end up with some archive file.
+
+Available modules
+-----------------
+
+  Note: modules may depend on other modules. In this case, you'll just need to
+  have built the dependency modules first.
+
+  zlib - windows only
+  gstbundle - windows and mac. windows version depends on zlib.
 
 How it works
 ------------

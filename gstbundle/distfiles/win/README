@@ -1,0 +1,18 @@
+This is a build of GStreamer 0.10.36 with patches for MinGW32.
+
+You will need to set environment variables in order for anything to work:
+
+  PATH to bin
+  GST_PLUGIN_PATH to lib/gstreamer-0.10
+
+And one of these:
+
+  GST_PLUGIN_SCANNER to libexec/gstreamer-0.10/gst-plugin-scanner
+    or
+  GST_REGISTRY_FORK=no
+
+Even if the libs are bundled within an application, you'll still need to set
+the GST_* variables.
+
+If all is well, you should be able to run gst-inspect-0.10 from the bin
+directory and see a big list of elements.

@@ -1,4 +1,10 @@
-PACKAGES="gettext glib pkgconfig libjpeg libogg libvorbis libtheora libspeex gstreamer gstbase gstgood"
+PACKAGES="libiconv libffi gettext glib pkgconfig libjpeg libogg libvorbis libtheora libspeex gstreamer gstbase gstgood"
+
+libiconv_file=libiconv-1.14.tar.gz
+libiconv_url=http://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.14.tar.gz
+
+libffi_file=libffi-3.0.10.tar.gz
+libffi_url=ftp://sourceware.org/pub/libffi/libffi-3.0.10.tar.gz
 
 gettext_file=gettext-0.18.1.1.tar.gz
 gettext_url=http://ftp.gnu.org/pub/gnu/gettext/gettext-0.18.1.1.tar.gz
