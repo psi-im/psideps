@@ -41,9 +41,9 @@ build_package_zlib() {
 	tar jxvf $pkgdir/$zlib_file
 	cd zlib-*
 	make -f win32/Makefile.gcc
-	make -p $arch_prefix/bin
-	make -p $arch_prefix/include
-	make -p $arch_prefix/lib
+	mkdir -p $arch_prefix/bin
+	mkdir -p $arch_prefix/include
+	mkdir -p $arch_prefix/lib
 	cp zlib1.dll $arch_prefix/bin
 	cp zconf.h zlib.h $arch_prefix/include
 	cp libz.dll.a $arch_prefix/lib
