@@ -2,12 +2,20 @@ Prerequisites
 -------------
 
   Windows:
-    MinGW/MSYS
+    64-bit machine (required by the 64-bit toolchain)
+    MinGW/MSYS (normal 32-bit install)
+    Add 64-bit toolchain:
+      get x86_64-w64-mingw32-gcc-4.7.0-3_rubenvb.7z
+      extract to c:\mingw64, so that you have /c/mingw64/bin/gcc.exe, etc.
     wget (mingw-get install msys-wget)
+    patch (mingw-get install msys-patch)
     zip (mingw-get install msys-zip)
+    bison (mingw-get install msys-bison)
+    flex (mingw-get install msys-flex)
     Use an MSYS shell when building modules
 
   Mac:
+    64-bit machine (even though universal binaries are produced)
     Xcode
 
   Ensure you have access to create and/or write to the /psidepsbase directory.
