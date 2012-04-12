@@ -13,7 +13,7 @@ dist_base=$3
 
 mkdir -p $dist_base
 
-TARGET_ARCHES="i386"
+TARGET_ARCHES="i386 x86_64"
 
 for target_arch in $TARGET_ARCHES; do
 	target_base=$destdir$base_prefix/$target_arch

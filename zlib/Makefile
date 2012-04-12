@@ -31,7 +31,12 @@ build/i386/zlib/ok: packages/$(zlib_file)
 	./build_package.sh zlib i386 $(PREFIX) $(PWD)/install
 	touch build/i386/zlib/ok
 
-dist/zlib-$(VERSION)-win: build/i386/zlib/ok
+build/x86_64/zlib/ok: packages/$(zlib_file)
+	mkdir -p build
+	./build_package.sh zlib x86_64 $(PREFIX) $(PWD)/install
+	touch build/x86_64/zlib/ok
+
+dist/zlib-$(VERSION)-win: build/i386/zlib/ok build/x86_64/zlib/ok
 	./prep_dist.sh $(PWD)/install $(PREFIX) dist/zlib-$(VERSION)-win
 
 zlib-$(VERSION)-win.zip: dist/zlib-$(VERSION)-win

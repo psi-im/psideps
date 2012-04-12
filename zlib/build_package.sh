@@ -23,6 +23,10 @@ mkdir -p $arch_prefix
 touch $arch_prefix/test_writable
 rm $arch_prefix/test_writable
 
+if [ "$target_arch" == "x86_64" ]; then
+	export PATH=/c/mingw64/bin:$PATH
+fi
+
 build_package() {
 	if [ ! -d "build/$2/$1" ]; then
 		echo "$1/$2: building..."
