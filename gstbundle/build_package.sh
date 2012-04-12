@@ -44,7 +44,7 @@ if [ "$target_arch" == "x86_64" ]; then
 fi
 
 check_race_cond() {
-	if [ find . -name config.log | xargs grep "Permission denied" > /dev/null ]; then
+	if find . -name config.log | xargs grep "Permission denied" > /dev/null; then
 		echo "error: file access race condition. try again."
 		exit 1
 	fi
