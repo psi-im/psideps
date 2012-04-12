@@ -1,0 +1,15 @@
+diff -ru gettext-0.18.1.1.orig/gettext-tools/woe32dll/export.h gettext-0.18.1.1/gettext-tools/woe32dll/export.h
+--- gettext-0.18.1.1.orig/gettext-tools/woe32dll/export.h	2010-06-06 05:49:58 -0700
++++ gettext-0.18.1.1/gettext-tools/woe32dll/export.h	2012-04-10 11:08:09 -0700
+@@ -90,7 +90,11 @@
+    --export-all-symbols is used.  */
+ 
+  /* IMP(x) is a symbol that contains the address of x.  */
++#ifdef _WIN64
++#define IMP(x) __imp_##x
++#else
+ #define IMP(x) _imp__##x
++#endif
+ 
+  /* Ensure that the variable x is exported from the library, and that a
+     pseudo-variable IMP(x) is available.  */

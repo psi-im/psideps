@@ -1,0 +1,94 @@
+diff -ru gettext-0.18.1.1.orig/gettext-tools/gnulib-lib/Makefile.in gettext-0.18.1.1/gettext-tools/gnulib-lib/Makefile.in
+--- gettext-0.18.1.1.orig/gettext-tools/gnulib-lib/Makefile.in	2010-06-06 13:12:29 -0700
++++ gettext-0.18.1.1/gettext-tools/gnulib-lib/Makefile.in	2012-04-11 14:46:08 -0700
+@@ -57,8 +57,7 @@
+ @WOE32DLL_TRUE@am__append_2 = ../woe32dll/gettextlib-exports.c
+ @WOE32DLL_TRUE@am__append_3 = -Wl,--export-all-symbols
+ @WOE32DLL_TRUE@am__append_4 = @GETTEXTLIB_EXPORTS_FLAGS@
+-@WOE32DLL_FALSE@am__append_5 = html-styled-ostream.c
+-@WOE32DLL_TRUE@am__append_6 = ../woe32dll/c++html-styled-ostream.cc
++@WOE32DLL_TRUE@am__append_5 = html-styled-ostream.c
+ @INCLUDED_LIBCROCO_TRUE@am__append_7 = -I$(srcdir)/libcroco
+ @INCLUDED_LIBCROCO_TRUE@am__append_8 = libcroco_rpl.la
+ @INCLUDED_LIBCROCO_TRUE@am__append_9 = libcroco_rpl.la
+@@ -73,8 +72,7 @@
+ @INCLUDED_LIBXML_TRUE@am__append_16 = libxml_rpl.la
+ @INCLUDED_LIBXML_TRUE@am__append_17 = libxml_rpl.la
+ @INCLUDED_LIBXML_TRUE@am__append_18 = libxml_rpl.la
+-@WOE32DLL_FALSE@am__append_19 = term-styled-ostream.c
+-@WOE32DLL_TRUE@am__append_20 = ../woe32dll/c++term-styled-ostream.cc
++@WOE32DLL_TRUE@am__append_19 = term-styled-ostream.c
+ @LIBUNISTRING_COMPILE_UNICONV_U8_CONV_FROM_ENC_TRUE@am__append_21 = uniconv/u8-conv-from-enc.c
+ @LIBUNISTRING_COMPILE_UNILBRK_U8_POSSIBLE_LINEBREAKS_TRUE@am__append_22 = unilbrk/u8-possible-linebreaks.c
+ @LIBUNISTRING_COMPILE_UNILBRK_U8_WIDTH_LINEBREAKS_TRUE@am__append_23 = unilbrk/u8-width-linebreaks.c
+@@ -412,10 +410,8 @@
+ 	xsetenv.h xsetenv.c xsize.h xstriconv.h xstriconv.c \
+ 	xstriconveh.c xvasprintf.h xvasprintf.c xasprintf.c
+ @WOE32DLL_TRUE@am__objects_1 = ../woe32dll/gettextlib-exports.lo
+-@WOE32DLL_FALSE@am__objects_2 = html-styled-ostream.lo
+-@WOE32DLL_TRUE@am__objects_3 = ../woe32dll/c++html-styled-ostream.lo
+-@WOE32DLL_FALSE@am__objects_4 = term-styled-ostream.lo
+-@WOE32DLL_TRUE@am__objects_5 = ../woe32dll/c++term-styled-ostream.lo
++@WOE32DLL_TRUE@am__objects_2 = html-styled-ostream.lo
++@WOE32DLL_TRUE@am__objects_4 = term-styled-ostream.lo
+ @LIBUNISTRING_COMPILE_UNICONV_U8_CONV_FROM_ENC_TRUE@am__objects_6 = uniconv/u8-conv-from-enc.lo
+ @LIBUNISTRING_COMPILE_UNILBRK_U8_POSSIBLE_LINEBREAKS_TRUE@am__objects_7 = unilbrk/u8-possible-linebreaks.lo
+ @LIBUNISTRING_COMPILE_UNILBRK_U8_WIDTH_LINEBREAKS_TRUE@am__objects_8 = unilbrk/u8-width-linebreaks.lo
+diff -ru gettext-0.18.1.1.orig/gettext-tools/gnulib-lib/html-styled-ostream.c gettext-0.18.1.1/gettext-tools/gnulib-lib/html-styled-ostream.c
+--- gettext-0.18.1.1.orig/gettext-tools/gnulib-lib/html-styled-ostream.c	2010-06-06 11:36:36 -0700
++++ gettext-0.18.1.1/gettext-tools/gnulib-lib/html-styled-ostream.c	2012-04-11 14:46:59 -0700
+@@ -49,6 +49,7 @@
+ #endif
+ #include "html_styled_ostream.priv.h"
+ 
++const typeinfo_t styled_ostream_typeinfo_html = { "styled_ostream" };
+ const typeinfo_t html_styled_ostream_typeinfo = { "html_styled_ostream" };
+ 
+ static const typeinfo_t * const html_styled_ostream_superclasses[] =
+diff -ru gettext-0.18.1.1.orig/gettext-tools/gnulib-lib/html-styled-ostream.h gettext-0.18.1.1/gettext-tools/gnulib-lib/html-styled-ostream.h
+--- gettext-0.18.1.1.orig/gettext-tools/gnulib-lib/html-styled-ostream.h	2010-06-06 11:36:36 -0700
++++ gettext-0.18.1.1/gettext-tools/gnulib-lib/html-styled-ostream.h	2012-04-11 14:46:59 -0700
+@@ -131,7 +131,7 @@
+ #endif
+ 
+ extern const typeinfo_t html_styled_ostream_typeinfo;
+-#define html_styled_ostream_SUPERCLASSES &html_styled_ostream_typeinfo, styled_ostream_SUPERCLASSES
++#define html_styled_ostream_SUPERCLASSES &html_styled_ostream_typeinfo, styled_ostream_SUPERCLASSES_html
+ #define html_styled_ostream_SUPERCLASSES_LENGTH (1 + styled_ostream_SUPERCLASSES_LENGTH)
+ 
+ extern const struct html_styled_ostream_implementation html_styled_ostream_vtable;
+diff -ru gettext-0.18.1.1.orig/gettext-tools/gnulib-lib/styled-ostream.h gettext-0.18.1.1/gettext-tools/gnulib-lib/styled-ostream.h
+--- gettext-0.18.1.1.orig/gettext-tools/gnulib-lib/styled-ostream.h	2010-06-06 11:36:38 -0700
++++ gettext-0.18.1.1/gettext-tools/gnulib-lib/styled-ostream.h	2012-04-11 14:46:59 -0700
+@@ -134,6 +134,8 @@
+ 
+ extern DLL_VARIABLE const typeinfo_t styled_ostream_typeinfo;
+ #define styled_ostream_SUPERCLASSES &styled_ostream_typeinfo, ostream_SUPERCLASSES
++#define styled_ostream_SUPERCLASSES_term &styled_ostream_typeinfo_term, ostream_SUPERCLASSES
++#define styled_ostream_SUPERCLASSES_html &styled_ostream_typeinfo_html, ostream_SUPERCLASSES
+ #define styled_ostream_SUPERCLASSES_LENGTH (1 + ostream_SUPERCLASSES_LENGTH)
+ 
+ extern DLL_VARIABLE const struct styled_ostream_implementation styled_ostream_vtable;
+diff -ru gettext-0.18.1.1.orig/gettext-tools/gnulib-lib/term-styled-ostream.c gettext-0.18.1.1/gettext-tools/gnulib-lib/term-styled-ostream.c
+--- gettext-0.18.1.1.orig/gettext-tools/gnulib-lib/term-styled-ostream.c	2010-06-06 11:36:41 -0700
++++ gettext-0.18.1.1/gettext-tools/gnulib-lib/term-styled-ostream.c	2012-04-11 14:46:59 -0700
+@@ -68,6 +68,7 @@
+ #endif
+ #include "term_styled_ostream.priv.h"
+ 
++const typeinfo_t styled_ostream_typeinfo_term = { "styled_ostream" };
+ const typeinfo_t term_styled_ostream_typeinfo = { "term_styled_ostream" };
+ 
+ static const typeinfo_t * const term_styled_ostream_superclasses[] =
+diff -ru gettext-0.18.1.1.orig/gettext-tools/gnulib-lib/term-styled-ostream.h gettext-0.18.1.1/gettext-tools/gnulib-lib/term-styled-ostream.h
+--- gettext-0.18.1.1.orig/gettext-tools/gnulib-lib/term-styled-ostream.h	2010-06-06 11:36:40 -0700
++++ gettext-0.18.1.1/gettext-tools/gnulib-lib/term-styled-ostream.h	2012-04-11 14:46:59 -0700
+@@ -131,7 +131,7 @@
+ #endif
+ 
+ extern const typeinfo_t term_styled_ostream_typeinfo;
+-#define term_styled_ostream_SUPERCLASSES &term_styled_ostream_typeinfo, styled_ostream_SUPERCLASSES
++#define term_styled_ostream_SUPERCLASSES &term_styled_ostream_typeinfo, styled_ostream_SUPERCLASSES_term
+ #define term_styled_ostream_SUPERCLASSES_LENGTH (1 + styled_ostream_SUPERCLASSES_LENGTH)
+ 
+ extern const struct term_styled_ostream_implementation term_styled_ostream_vtable;

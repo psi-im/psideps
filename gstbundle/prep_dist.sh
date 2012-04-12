@@ -171,7 +171,7 @@ cp -a distfiles/mac/README $dist_base
 
 else
 
-TARGET_ARCHES="i386"
+TARGET_ARCHES="i386 x86_64"
 
 for target_arch in $TARGET_ARCHES; do
 	target_base=$destdir$base_prefix/$target_arch
@@ -181,7 +181,7 @@ for target_arch in $TARGET_ARCHES; do
 	cp -a $target_base/bin $target_dist_base
 	cp -a $target_base/include $target_dist_base
 	cp -a $target_base/lib $target_dist_base
-	#cp -a $target_base/libexec $target_dist_base
+	cp -a $target_base/libexec $target_dist_base
 done
 
 cp -a distfiles/win/README $dist_base

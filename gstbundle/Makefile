@@ -90,10 +90,20 @@ build/i386/libiconv/ok: packages/$(libiconv_file)
 	./build_package.sh libiconv i386 $(PREFIX) $(PWD)/install
 	touch build/i386/libiconv/ok
 
+build/x86_64/libiconv/ok: packages/$(libiconv_file)
+	mkdir -p build
+	./build_package.sh libiconv x86_64 $(PREFIX) $(PWD)/install
+	touch build/x86_64/libiconv/ok
+
 build/i386/libffi/ok: packages/$(libffi_file)
 	mkdir -p build
 	./build_package.sh libffi i386 $(PREFIX) $(PWD)/install
 	touch build/i386/libffi/ok
+
+build/x86_64/libffi/ok: packages/$(libffi_file)
+	mkdir -p build
+	./build_package.sh libffi x86_64 $(PREFIX) $(PWD)/install
+	touch build/x86_64/libffi/ok
 
 build/i386/gettext/ok: packages/$(gettext_file)
 	mkdir -p build
@@ -208,7 +218,7 @@ build/x86_64/gstgood/ok: packages/$(gstgood_file)
 dist/gstbundle-$(VERSION)-mac: build/i386/gettext/ok build/x86_64/gettext/ok build/i386/glib/ok build/x86_64/glib/ok build/i386/pkgconfig/ok build/x86_64/pkgconfig/ok build/i386/libjpeg/ok build/x86_64/libjpeg/ok build/i386/libogg/ok build/x86_64/libogg/ok build/i386/libvorbis/ok build/x86_64/libvorbis/ok build/i386/libtheora/ok build/x86_64/libtheora/ok build/i386/libspeex/ok build/x86_64/libspeex/ok build/i386/gstreamer/ok build/x86_64/gstreamer/ok build/i386/gstbase/ok build/x86_64/gstbase/ok build/i386/gstgood/ok build/x86_64/gstgood/ok
 	./prep_dist.sh $(PWD)/install $(PREFIX) dist/gstbundle-$(VERSION)-mac
 
-dist/gstbundle-$(VERSION)-win: build/i386/libiconv/ok build/i386/libffi/ok
+dist/gstbundle-$(VERSION)-win: build/i386/libiconv/ok build/x86_64/libiconv/ok build/i386/libffi/ok build/x86_64/libffi/ok build/i386/gettext/ok build/x86_64/gettext/ok build/i386/glib/ok build/x86_64/glib/ok build/i386/pkgconfig/ok build/x86_64/pkgconfig/ok build/i386/libjpeg/ok build/x86_64/libjpeg/ok build/i386/libogg/ok build/x86_64/libogg/ok build/i386/libvorbis/ok build/x86_64/libvorbis/ok build/i386/libtheora/ok build/x86_64/libtheora/ok build/i386/libspeex/ok build/x86_64/libspeex/ok build/i386/gstreamer/ok build/x86_64/gstreamer/ok build/i386/gstbase/ok build/x86_64/gstbase/ok build/i386/gstgood/ok build/x86_64/gstgood/ok
 	./prep_dist.sh $(PWD)/install $(PREFIX) dist/gstbundle-$(VERSION)-win
 
 gstbundle-$(VERSION)-mac.tar.bz2: dist/gstbundle-$(VERSION)-mac

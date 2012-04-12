@@ -1,0 +1,23 @@
+diff -ru gettext-0.18.1.1.orig/gettext-runtime/libasprintf/lib-asprintf.c gettext-0.18.1.1/gettext-runtime/libasprintf/lib-asprintf.c
+--- gettext-0.18.1.1.orig/gettext-runtime/libasprintf/lib-asprintf.c	2010-06-06 05:49:57 -0700
++++ gettext-0.18.1.1/gettext-runtime/libasprintf/lib-asprintf.c	2012-04-10 12:32:41 -0700
+@@ -34,7 +34,6 @@
+ #include "asnprintf.c"
+ 
+ /* Define functions declared in "vasprintf.h".  */
+-#include "vasprintf.c"
+ #include "asprintf.c"
+ 
+ #endif
+diff -ru gettext-0.18.1.1.orig/gettext-runtime/libasprintf/vasprintf.h gettext-0.18.1.1/gettext-runtime/libasprintf/vasprintf.h
+--- gettext-0.18.1.1.orig/gettext-runtime/libasprintf/vasprintf.h	2010-06-06 05:49:57 -0700
++++ gettext-0.18.1.1/gettext-runtime/libasprintf/vasprintf.h	2012-04-10 12:33:12 -0700
+@@ -45,8 +45,6 @@
+    NUL.  Upon memory allocation error, or some other error, return -1.  */
+ extern int asprintf (char **result, const char *format, ...)
+        __attribute__ ((__format__ (__printf__, 2, 3)));
+-extern int vasprintf (char **result, const char *format, va_list args)
+-       __attribute__ ((__format__ (__printf__, 2, 0)));
+ 
+ #ifdef __cplusplus
+ }
