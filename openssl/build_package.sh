@@ -42,14 +42,18 @@ build_package() {
 }
 
 build_package_openssl() {
-	tar jxvf $pkgdir/$openssl_file
+	tar zxvf $pkgdir/$openssl_file
 	cd openssl-*
-	./config --with-zlib-include=$base_prefix/../zlib/$target_arch/include --with-zlib-lib=$base_prefix/../zlib/$target_arch/lib shared zlib
+	if [ "$target_arch" == "x86_64" ]; then
+		./Configure --with-zlib-include=$base_prefix/../zlib/$target_arch/include --with-zlib-lib=$base_prefix/../zlib/$target_arch/lib shared zlib mingw64
+	else
+		./config --with-zlib-include=$base_prefix/../zlib/$target_arch/include --with-zlib-lib=$base_prefix/../zlib/$target_arch/lib shared zlib
+	fi
 	make
 	mkdir -p $arch_prefix/bin
 	mkdir -p $arch_prefix/include
 	mkdir -p $arch_prefix/lib
-	cp libeay32.dll ssleay32.dll openssl.exe $arch_prefix/bin
+	cp libeay32.dll ssleay32.dll apps/openssl.exe $arch_prefix/bin
 	cp -r include/openssl $arch_prefix/include
 	cp libcrypto.dll.a libssl.dll.a $arch_prefix/lib
 }

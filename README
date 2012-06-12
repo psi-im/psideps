@@ -12,6 +12,7 @@ Prerequisites
     zip (mingw-get install msys-zip)
     bison (mingw-get install msys-bison)
     flex (mingw-get install msys-flex)
+    perl (mingw-get install msys-perl, NOT ActiveState perl!)
     Use an MSYS shell when building modules
 
   Mac:
