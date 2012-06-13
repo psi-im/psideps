@@ -44,6 +44,7 @@ build_package() {
 build_package_aspell() {
 	tar zxvf $pkgdir/$aspell_file
 	cd aspell-*
+	patch -p0 < $patchdir/asc_ctype_fix.diff
 	./configure --prefix=$arch_prefix
 	make
 	make install
