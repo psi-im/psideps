@@ -52,7 +52,7 @@ build_package_aspell() {
 }
 
 build_package_aspell_en() {
-	tar zxvf $pkgdir/$aspell_en_file
+	tar jxvf $pkgdir/$aspell_en_file
 	cd aspell6-*
 	./configure --vars ASPELL=$arch_prefix/bin/aspell PREZIP=$arch_prefix/bin/prezip-bin
 	ASPELL_CONF="prefix /mingw/msys/1.0$arch_prefix" make
