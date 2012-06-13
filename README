@@ -24,6 +24,8 @@ Prerequisites
   is not used when running "make install" operations. It should be enough to
   create the directory in advance with correct permissions.
 
+  NOTE: it is assumed that the root mount device is C:\MinGW\msys\1.0
+
 Building a module
 -----------------
 
@@ -40,6 +42,7 @@ Available modules
 
   zlib - windows only.
   openssl - windows only. depends on zlib.
+  aspell - windows only.
   gstbundle - windows and mac. windows version depends on zlib.
 
 How it works
