@@ -1,0 +1,96 @@
+diff -ru aspell-0.60.6.1.orig/modules/speller/default/data.hpp aspell-0.60.6.1/modules/speller/default/data.hpp
+--- aspell-0.60.6.1.orig/modules/speller/default/data.hpp	2011-07-04 02:21:27 -0700
++++ aspell-0.60.6.1/modules/speller/default/data.hpp	2012-06-13 13:11:09 -0700
+@@ -16,7 +16,7 @@
+ #include "cache.hpp"
+ #include "wordinfo.hpp"
+ 
+-using namespace acommon;
++//using namespace acommon;
+ 
+ namespace acommon {
+   class Config;
+diff -ru aspell-0.60.6.1.orig/modules/speller/default/data_util.hpp aspell-0.60.6.1/modules/speller/default/data_util.hpp
+--- aspell-0.60.6.1.orig/modules/speller/default/data_util.hpp	2011-07-02 14:09:09 -0700
++++ aspell-0.60.6.1/modules/speller/default/data_util.hpp	2012-06-13 13:13:20 -0700
+@@ -8,7 +8,7 @@
+ 
+ #include "parm_string.hpp"
+ 
+-using namespace acommon;
++//using namespace acommon;
+ 
+ namespace aspeller {
+ 
+diff -ru aspell-0.60.6.1.orig/modules/speller/default/language.cpp aspell-0.60.6.1/modules/speller/default/language.cpp
+--- aspell-0.60.6.1.orig/modules/speller/default/language.cpp	2005-02-20 13:47:07 -0800
++++ aspell-0.60.6.1/modules/speller/default/language.cpp	2012-06-13 14:37:12 -0700
+@@ -26,6 +26,8 @@
+ 
+ #include "gettext.h"
+ 
++using namespace acommon;
++
+ namespace aspeller {
+ 
+   static const char TO_CHAR_TYPE[256] = {
+diff -ru aspell-0.60.6.1.orig/modules/speller/default/language.hpp aspell-0.60.6.1/modules/speller/default/language.hpp
+--- aspell-0.60.6.1.orig/modules/speller/default/language.hpp	2005-02-20 13:47:08 -0800
++++ aspell-0.60.6.1/modules/speller/default/language.hpp	2012-06-13 13:17:39 -0700
+@@ -16,7 +16,7 @@
+ 
+ #include "iostream.hpp"
+ 
+-using namespace acommon;
++//using namespace acommon;
+ 
+ namespace acommon {
+   struct CheckInfo;
+diff -ru aspell-0.60.6.1.orig/modules/speller/default/phonetic.hpp aspell-0.60.6.1/modules/speller/default/phonetic.hpp
+--- aspell-0.60.6.1.orig/modules/speller/default/phonetic.hpp	2011-07-02 14:09:09 -0700
++++ aspell-0.60.6.1/modules/speller/default/phonetic.hpp	2012-06-13 13:19:14 -0700
+@@ -5,7 +5,7 @@
+ 
+ #include "string.hpp"
+ 
+-using namespace acommon;
++//using namespace acommon;
+ 
+ namespace acommon {struct Conv;}
+ 
+diff -ru aspell-0.60.6.1.orig/modules/speller/default/readonly_ws.cpp aspell-0.60.6.1/modules/speller/default/readonly_ws.cpp
+--- aspell-0.60.6.1.orig/modules/speller/default/readonly_ws.cpp	2011-07-04 02:21:59 -0700
++++ aspell-0.60.6.1/modules/speller/default/readonly_ws.cpp	2012-06-13 13:21:02 -0700
+@@ -74,6 +74,8 @@
+ #define MAP_FAILED (-1)
+ #endif
+ 
++using namespace acommon;
++
+ #ifdef HAVE_MMAP
+ 
+ static inline char * mmap_open(unsigned int block_size, 
+diff -ru aspell-0.60.6.1.orig/modules/speller/default/speller_impl.hpp aspell-0.60.6.1/modules/speller/default/speller_impl.hpp
+--- aspell-0.60.6.1.orig/modules/speller/default/speller_impl.hpp	2011-07-02 14:09:09 -0700
++++ aspell-0.60.6.1/modules/speller/default/speller_impl.hpp	2012-06-13 13:13:29 -0700
+@@ -13,7 +13,7 @@
+ #include "speller.hpp"
+ #include "check_list.hpp"
+ 
+-using namespace acommon;
++//using namespace acommon;
+ 
+ namespace acommon {
+   class StringMap;
+diff -ru aspell-0.60.6.1.orig/modules/speller/default/suggest.hpp aspell-0.60.6.1/modules/speller/default/suggest.hpp
+--- aspell-0.60.6.1.orig/modules/speller/default/suggest.hpp	2011-07-02 14:09:09 -0700
++++ aspell-0.60.6.1/modules/speller/default/suggest.hpp	2012-06-13 13:17:59 -0700
+@@ -7,7 +7,7 @@
+ #include "enumeration.hpp"
+ #include "parm_string.hpp"
+ 
+-using namespace acommon;
++//using namespace acommon;
+ 
+ namespace aspeller {
+ 
