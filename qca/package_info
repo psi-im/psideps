@@ -1,0 +1,4 @@
+PACKAGES="qca"
+
+qca_file=qca-2.0.3.tar.bz2
+qca_url=http://delta.affinix.com/download/qca/2.0/qca-2.0.3.tar.bz2

@@ -44,6 +44,22 @@ Available modules
   openssl - windows only. depends on zlib.
   aspell - windows only.
   gstbundle - windows and mac. windows version depends on zlib.
+  qca - windows and mac. depends on qt and openssl. for windows, see below
+    about qt vars.
+
+Windows and Qt
+--------------
+
+Your Qt may be installed anywhere, and so you need to supply 2 environment
+variables:
+
+  QTDIR64 - location of 64-bit Qt using native path format with forward slashes
+  QTDIR32 - location of 32-bit Qt using native path format with forward slashes
+
+For example:
+
+  cd qca
+  QTDIR64=c:/qt/4.8.2-w64 QTDIR32=c:/qt/4.8.2 make
 
 How it works
 ------------
