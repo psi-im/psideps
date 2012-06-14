@@ -57,9 +57,11 @@ build_package_qca() {
 	else
 		qtdir=$QTDIR32
 	fi
+	mqtdir=`get_msys_path $qtdir`
 	tar jxvf $pkgdir/$qca_file
 	cd qca-*
-	PATH=`get_msys_path $qtdir`:$PATH ./configure.exe --qtdir=$qtdir --release
+	patch -p0 < $patchdir/gcc_4.7_fix.diff
+	PATH=$mqtdir/bin:$PATH ./configure.exe --qtdir=$qtdir --release
 	mingw32-make
 	cp -r bin $arch_prefix
 	cp -r include $arch_prefix
