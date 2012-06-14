@@ -26,6 +26,10 @@ packages/$(qca_file):
 	mkdir -p packages
 	../fetch.sh $(qca_url) packages/$(qca_file)
 
+packages/$(qca_ossl_file):
+	mkdir -p packages
+	../fetch.sh $(qca_ossl_url) packages/$(qca_ossl_file)
+
 build/i386/qca/ok: packages/$(qca_file)
 	mkdir -p build
 	./build_package.sh qca i386 $(PREFIX) $(PWD)/install
@@ -36,7 +40,17 @@ build/x86_64/qca/ok: packages/$(qca_file)
 	./build_package.sh qca x86_64 $(PREFIX) $(PWD)/install
 	touch build/x86_64/qca/ok
 
-dist/qca-$(VERSION)-win: build/i386/qca/ok build/x86_64/qca/ok
+build/i386/qca_ossl/ok: packages/$(qca_ossl_file)
+	mkdir -p build
+	./build_package.sh qca_ossl i386 $(PREFIX) $(PWD)/install
+	touch build/i386/qca_ossl/ok
+
+build/x86_64/qca_ossl/ok: packages/$(qca_ossl_file)
+	mkdir -p build
+	./build_package.sh qca_ossl x86_64 $(PREFIX) $(PWD)/install
+	touch build/x86_64/qca_ossl/ok
+
+dist/qca-$(VERSION)-win: build/i386/qca/ok build/x86_64/qca/ok build/i386/qca_ossl/ok build/x86_64/qca_ossl/ok
 	./prep_dist.sh $(PWD)/install $(PREFIX) dist/qca-$(VERSION)-win
 
 qca-$(VERSION)-win.zip: dist/qca-$(VERSION)-win
