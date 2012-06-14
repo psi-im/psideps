@@ -23,6 +23,7 @@ for target_arch in $TARGET_ARCHES; do
 	cp -a $target_base/bin $target_dist_base
 	cp -a $target_base/include $target_dist_base
 	cp -a $target_base/lib $target_dist_base
+	cp -a $target_base/plugins $target_dist_base
 done
 
 cp -a distfiles/win/README $dist_base

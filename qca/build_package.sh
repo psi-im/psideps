@@ -76,7 +76,7 @@ build_package_qca_ossl() {
 		qtdir=$QTDIR32
 	fi
 	mqtdir=`get_msys_path $qtdir`
-	tar jxvf $pkgdir/$qca_file
+	tar jxvf $pkgdir/$qca_ossl_file
 	cd qca-ossl-*
 	PATH=$mqtdir/bin:$PATH ./configure.exe --qtdir=$qtdir --release --with-qca=/mingw/msys/1.0$arch_prefix --with-openssl-inc=/mingw/msys/1.0$base_prefix/../openssl/$target_arch/include --with-openssl-lib=/mingw/msys/1.0$base_prefix/../openssl/$target_arch/lib
 	mingw32-make
