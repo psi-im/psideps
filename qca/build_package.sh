@@ -60,13 +60,13 @@ build_package_qca() {
 	mqtdir=`get_msys_path $qtdir`
 	tar jxvf $pkgdir/$qca_file
 	cd qca-*
+	cp $patchdir/configure.exe .
 	patch -p0 < $patchdir/gcc_4.7_fix.diff
 	PATH=$mqtdir/bin:$PATH ./configure.exe --qtdir=$qtdir --release
 	mingw32-make
 	cp -r bin $arch_prefix
 	cp -r include $arch_prefix
-	mkdir -p $arch_prefix/lib
-	cp lib/libqca2.a $arch_prefix/lib
+	cp -r lib $arch_prefix
 }
 
 build_package_qca_ossl() {
@@ -79,6 +79,23 @@ build_package_qca_ossl() {
 	tar jxvf $pkgdir/$qca_ossl_file
 	cd qca-ossl-*
 	PATH=$mqtdir/bin:$PATH ./configure.exe --qtdir=$qtdir --release --with-qca=/mingw/msys/1.0$arch_prefix --with-openssl-inc=/mingw/msys/1.0$base_prefix/../openssl/$target_arch/include --with-openssl-lib=/mingw/msys/1.0$base_prefix/../openssl/$target_arch/lib
+	mingw32-make
+	mkdir -p $arch_prefix/plugins/crypto
+	cp lib/*.dll $arch_prefix/plugins/crypto
+}
+
+build_package_qca_gnupg() {
+	if [ "$target_arch" == "x86_64" ]; then
+		qtdir=$QTDIR64
+	else
+		qtdir=$QTDIR32
+	fi
+	mqtdir=`get_msys_path $qtdir`
+	tar jxvf $pkgdir/$qca_gnupg_file
+	cd qca-gnupg-*
+	echo "CONFIG -= debug release debug_and_release" > conf_win.pri
+	echo "CONFIG += release" >> conf_win.pri
+	PATH=$mqtdir/bin:$PATH $mqtdir/bin/qmake
 	mingw32-make
 	mkdir -p $arch_prefix/plugins/crypto
 	cp lib/*.dll $arch_prefix/plugins/crypto
