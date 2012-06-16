@@ -93,7 +93,7 @@ build_package_qca_gnupg() {
 	mqtdir=`get_msys_path $qtdir`
 	tar jxvf $pkgdir/$qca_gnupg_file
 	cd qca-gnupg-*
-	sed -e "s/windows:CONFIG += crypto/#windows:CONFIG += crypto/g" qca-gnupg.pro.tmp
+	sed -e "s/windows:CONFIG += crypto/#windows:CONFIG += crypto/g" qca-gnupg.pro > qca-gnupg.pro.tmp
 	mv qca-gnupg.pro.tmp qca-gnupg.pro
 	cat > conf_win.pri <<EOT
 CONFIG -= debug release debug_and_release
