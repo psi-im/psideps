@@ -1,0 +1,27 @@
+CONFIG *= qt
+
+LINKAGE =
+
+# on mac, if qca was built as a framework, link against it
+mac: {
+	framework_dir = $$QCA_LIBDIR
+	exists($$framework_dir/qca.framework) {
+		#QMAKE_FRAMEWORKPATH *= $$framework_dir
+		LIBS += -F$$framework_dir
+		INCLUDEPATH += $$framework_dir/qca.framework/Headers
+		LINKAGE = -framework qca
+	}
+}
+
+# else, link normally
+isEmpty(LINKAGE) {
+	INCLUDEPATH += $$QCA_INCDIR/QtCrypto
+	LIBS += -L$$QCA_LIBDIR
+	LINKAGE = -lqca
+	CONFIG(debug, debug|release) {
+		windows:LINKAGE = -lqcad
+		mac:LINKAGE = -lqca_debug
+	}
+}
+
+LIBS += $$LINKAGE

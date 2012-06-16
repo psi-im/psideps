@@ -93,8 +93,16 @@ build_package_qca_gnupg() {
 	mqtdir=`get_msys_path $qtdir`
 	tar jxvf $pkgdir/$qca_gnupg_file
 	cd qca-gnupg-*
-	echo "CONFIG -= debug release debug_and_release" > conf_win.pri
-	echo "CONFIG += release" >> conf_win.pri
+	sed -e "s/windows:CONFIG += crypto/#windows:CONFIG += crypto/g" qca-gnupg.pro.tmp
+	mv qca-gnupg.pro.tmp qca-gnupg.pro
+	cat > conf_win.pri <<EOT
+CONFIG -= debug release debug_and_release
+CONFIG += release
+
+QCA_INCDIR = c:/mingw/msys/1.0$base_prefix/../qca/$target_arch/include
+QCA_LIBDIR = c:/mingw/msys/1.0$base_prefix/../qca/$target_arch/lib
+EOT
+	cat $patchdir/qcaconf >> conf_win.pri
 	PATH=$mqtdir/bin:$PATH $mqtdir/bin/qmake
 	mingw32-make
 	mkdir -p $arch_prefix/plugins/crypto
