@@ -26,6 +26,10 @@ destdir=$4
 if [ "$platform" == "mac" ]; then
 	target_platform=$target_arch-apple-darwin
 	export MACOSX_DEPLOYMENT_TARGET=10.5
+else
+	if [ "$target_arch" == "x86_64" ]; then
+		export PATH=/c/mingw64/bin:$PATH
+	fi
 fi
 
 arch_prefix=$base_prefix/$target_arch
@@ -38,10 +42,6 @@ export PATH=$base_prefix/../zlib/$target_arch/bin:$arch_prefix/bin:$PATH
 mkdir -p $arch_prefix
 touch $arch_prefix/test_writable
 rm $arch_prefix/test_writable
-
-if [ "$target_arch" == "x86_64" ]; then
-	export PATH=/c/mingw64/bin:$PATH
-fi
 
 check_race_cond() {
 	if find . -name config.log | xargs grep "Permission denied" > /dev/null; then

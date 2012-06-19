@@ -6,6 +6,16 @@ if [ $# != 4 ]; then
 	exit 1
 fi
 
+platform=`uname -s`
+if [ "$platform" == "Darwin" ]; then
+	platform=mac
+elif [ "$platform" == "MINGW32_NT-6.1" ]; then
+	platform=win
+else
+	echo "error: unsupported platform $platform"
+	exit 1
+fi
+
 source ./package_info
 
 package_name=$1
@@ -13,7 +23,15 @@ target_arch=$2
 base_prefix=$3
 destdir=$4
 
-target_platform=$target_arch-mingw32-gcc
+if [ "$platform" == "mac" ]; then
+	target_platform=$target_arch-apple-darwin
+	export MACOSX_DEPLOYMENT_TARGET=10.5
+else
+	if [ "$target_arch" == "x86_64" ]; then
+		export PATH=/c/mingw64/bin:$PATH
+	fi
+fi
+
 arch_prefix=$base_prefix/$target_arch
 pkgdir=$PWD/packages
 patchdir=$PWD/patches
@@ -22,10 +40,6 @@ patchdir=$PWD/patches
 mkdir -p $arch_prefix
 touch $arch_prefix/test_writable
 rm $arch_prefix/test_writable
-
-if [ "$target_arch" == "x86_64" ]; then
-	export PATH=/c/mingw64/bin:$PATH
-fi
 
 get_msys_path() {
 	if [ `expr index $1 :` -gt 0 ]; then
@@ -52,61 +66,88 @@ build_package() {
 }
 
 build_package_qca() {
-	if [ "$target_arch" == "x86_64" ]; then
-		qtdir=$QTDIR64
-	else
-		qtdir=$QTDIR32
-	fi
-	mqtdir=`get_msys_path $qtdir`
 	tar jxvf $pkgdir/$qca_file
 	cd qca-*
-	cp $patchdir/configure.exe .
-	patch -p0 < $patchdir/gcc_4.7_fix.diff
-	PATH=$mqtdir/bin:$PATH ./configure.exe --qtdir=$qtdir --release
-	mingw32-make
+	if [ "$platform" == "win" ]; then
+		if [ "$target_arch" == "x86_64" ]; then
+			qtdir=$QTDIR64
+		else
+			qtdir=$QTDIR32
+		fi
+		mqtdir=`get_msys_path $qtdir`
+		cp $patchdir/configure.exe .
+		patch -p0 < $patchdir/gcc_4.7_fix.diff
+		PATH=$mqtdir/bin:$PATH ./configure.exe --qtdir=$qtdir --release
+		mingw32-make
+	else
+		./configure --release
+		make
+	fi
 	cp -r bin $arch_prefix
 	cp -r include $arch_prefix
 	cp -r lib $arch_prefix
 }
 
 build_package_qca_ossl() {
-	if [ "$target_arch" == "x86_64" ]; then
-		qtdir=$QTDIR64
-	else
-		qtdir=$QTDIR32
-	fi
-	mqtdir=`get_msys_path $qtdir`
 	tar jxvf $pkgdir/$qca_ossl_file
 	cd qca-ossl-*
-	PATH=$mqtdir/bin:$PATH ./configure.exe --qtdir=$qtdir --release --with-qca=/mingw/msys/1.0$arch_prefix --with-openssl-inc=/mingw/msys/1.0$base_prefix/../openssl/$target_arch/include --with-openssl-lib=/mingw/msys/1.0$base_prefix/../openssl/$target_arch/lib
-	mingw32-make
+	if [ "$platform" == "win" ]; then
+		if [ "$target_arch" == "x86_64" ]; then
+			qtdir=$QTDIR64
+		else
+			qtdir=$QTDIR32
+		fi
+		mqtdir=`get_msys_path $qtdir`
+		PATH=$mqtdir/bin:$PATH ./configure.exe --qtdir=$qtdir --release --with-qca=/mingw/msys/1.0$arch_prefix --with-openssl-inc=/mingw/msys/1.0$base_prefix/../openssl/$target_arch/include --with-openssl-lib=/mingw/msys/1.0$base_prefix/../openssl/$target_arch/lib
+		mingw32-make
+	else
+		./configure --release --with-qca=$arch_prefix
+		make
+	fi
+
 	mkdir -p $arch_prefix/plugins/crypto
-	cp lib/*.dll $arch_prefix/plugins/crypto
+
+	if [ "$platform" == "win" ]; then
+		cp lib/*.dll $arch_prefix/plugins/crypto
+	else
+		cp lib/*.dylib $arch_prefix/plugins/crypto
+	fi
 }
 
 build_package_qca_gnupg() {
-	if [ "$target_arch" == "x86_64" ]; then
-		qtdir=$QTDIR64
-	else
-		qtdir=$QTDIR32
-	fi
-	mqtdir=`get_msys_path $qtdir`
 	tar jxvf $pkgdir/$qca_gnupg_file
 	cd qca-gnupg-*
-	sed -e "s/windows:CONFIG += crypto/#windows:CONFIG += crypto/g" qca-gnupg.pro > qca-gnupg.pro.tmp
-	mv qca-gnupg.pro.tmp qca-gnupg.pro
-	cat > conf_win.pri <<EOT
+	if [ "$platform" == "win" ]; then
+		if [ "$target_arch" == "x86_64" ]; then
+			qtdir=$QTDIR64
+		else
+			qtdir=$QTDIR32
+		fi
+		mqtdir=`get_msys_path $qtdir`
+		sed -e "s/windows:CONFIG += crypto/#windows:CONFIG += crypto/g" qca-gnupg.pro > qca-gnupg.pro.tmp
+		mv qca-gnupg.pro.tmp qca-gnupg.pro
+		cat > conf_win.pri <<EOT
 CONFIG -= debug release debug_and_release
 CONFIG += release
 
 QCA_INCDIR = c:/mingw/msys/1.0$base_prefix/../qca/$target_arch/include
 QCA_LIBDIR = c:/mingw/msys/1.0$base_prefix/../qca/$target_arch/lib
 EOT
-	cat $patchdir/qcaconf >> conf_win.pri
-	PATH=$mqtdir/bin:$PATH $mqtdir/bin/qmake
-	mingw32-make
+		cat $patchdir/qcaconf >> conf_win.pri
+		PATH=$mqtdir/bin:$PATH $mqtdir/bin/qmake
+		mingw32-make
+	else
+		./configure --release
+		make
+	fi
+
 	mkdir -p $arch_prefix/plugins/crypto
-	cp lib/*.dll $arch_prefix/plugins/crypto
+
+	if [ "$platform" == "win" ]; then
+		cp lib/*.dll $arch_prefix/plugins/crypto
+	else
+		cp lib/*.dylib $arch_prefix/plugins/crypto
+	fi
 }
 
 build_package $package_name $target_arch
