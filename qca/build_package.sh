@@ -32,7 +32,11 @@ else
 	fi
 fi
 
-arch_prefix=$base_prefix/$target_arch
+if [ "$target_arch" != "" ]; then
+	arch_prefix=$base_prefix/$target_arch
+else
+	arch_prefix=$base_prefix
+fi
 pkgdir=$PWD/packages
 patchdir=$PWD/patches
 
@@ -79,13 +83,17 @@ build_package_qca() {
 		patch -p0 < $patchdir/gcc_4.7_fix.diff
 		PATH=$mqtdir/bin:$PATH ./configure.exe --qtdir=$qtdir --release
 		mingw32-make
+		cp -r bin $arch_prefix
+		cp -r include $arch_prefix
+		cp -r lib $arch_prefix
 	else
-		./configure --release
+		./configure --prefix=$arch_prefix --release
+		cat $patchdir/mac_universal.pri >> conf.pri
+		cat $patchdir/mac_universal.pri >> confapp.pri
+		$QTDIR/bin/qmake
 		make
+		make install
 	fi
-	cp -r bin $arch_prefix
-	cp -r include $arch_prefix
-	cp -r lib $arch_prefix
 }
 
 build_package_qca_ossl() {
@@ -102,6 +110,8 @@ build_package_qca_ossl() {
 		mingw32-make
 	else
 		./configure --release --with-qca=$arch_prefix
+		cat $patchdir/mac_universal.pri >> conf.pri
+		$QTDIR/bin/qmake
 		make
 	fi
 
@@ -137,7 +147,9 @@ EOT
 		PATH=$mqtdir/bin:$PATH $mqtdir/bin/qmake
 		mingw32-make
 	else
-		./configure --release
+		./configure --release --with-qca=$arch_prefix
+		cat $patchdir/mac_universal.pri >> conf.pri
+		$QTDIR/bin/qmake
 		make
 	fi
 
@@ -150,4 +162,8 @@ EOT
 	fi
 }
 
-build_package $package_name $target_arch
+if [ "$target_arch" != "" ]; then
+	build_package $package_name $target_arch
+else
+	build_package $package_name uni
+fi

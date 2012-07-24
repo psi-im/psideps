@@ -55,6 +55,11 @@ build/x86_64/qca/ok: packages/$(qca_file)
 	./build_package.sh qca x86_64 $(PREFIX) $(PWD)/install
 	touch build/x86_64/qca/ok
 
+build/uni/qca/ok: packages/$(qca_file)
+	mkdir -p build
+	./build_package.sh qca "" $(PREFIX) $(PWD)/install
+	touch build/uni/qca/ok
+
 build/i386/qca_ossl/ok: packages/$(qca_ossl_file)
 	mkdir -p build
 	./build_package.sh qca_ossl i386 $(PREFIX) $(PWD)/install
@@ -64,6 +69,11 @@ build/x86_64/qca_ossl/ok: packages/$(qca_ossl_file)
 	mkdir -p build
 	./build_package.sh qca_ossl x86_64 $(PREFIX) $(PWD)/install
 	touch build/x86_64/qca_ossl/ok
+
+build/uni/qca_ossl/ok: packages/$(qca_ossl_file)
+	mkdir -p build
+	./build_package.sh qca_ossl "" $(PREFIX) $(PWD)/install
+	touch build/uni/qca_ossl/ok
 
 build/i386/qca_gnupg/ok: packages/$(qca_gnupg_file)
 	mkdir -p build
@@ -75,7 +85,12 @@ build/x86_64/qca_gnupg/ok: packages/$(qca_gnupg_file)
 	./build_package.sh qca_gnupg x86_64 $(PREFIX) $(PWD)/install
 	touch build/x86_64/qca_gnupg/ok
 
-dist/qca-$(VERSION)-mac: build/i386/qca/ok build/x86_64/qca/ok build/i386/qca_ossl/ok build/x86_64/qca_ossl/ok build/i386/qca_gnupg/ok build/x86_64/qca_gnupg/ok
+build/uni/qca_gnupg/ok: packages/$(qca_gnupg_file)
+	mkdir -p build
+	./build_package.sh qca_gnupg "" $(PREFIX) $(PWD)/install
+	touch build/uni/qca_gnupg/ok
+
+dist/qca-$(VERSION)-mac: build/uni/qca/ok build/uni/qca_ossl/ok build/uni/qca_gnupg/ok
 	./prep_dist.sh $(PWD)/install $(PREFIX) dist/qca-$(VERSION)-mac
 
 dist/qca-$(VERSION)-win: build/i386/qca/ok build/x86_64/qca/ok build/i386/qca_ossl/ok build/x86_64/qca_ossl/ok build/i386/qca_gnupg/ok build/x86_64/qca_gnupg/ok

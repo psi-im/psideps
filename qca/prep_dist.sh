@@ -24,18 +24,13 @@ dist_base=$3
 mkdir -p $dist_base
 
 if [ "$platform" == "mac" ]; then
-	TARGET_ARCHES="i386 x86_64"
+	target_base=$destdir$base_prefix
+	target_dist_base=$dist_base
 
-	for target_arch in $TARGET_ARCHES; do
-		target_base=$destdir$base_prefix/$target_arch
-		target_dist_base=$dist_base/$target_arch
-
-		mkdir -p $target_dist_base
-		cp -a $target_base/bin $target_dist_base
-		cp -a $target_base/include $target_dist_base
-		cp -a $target_base/lib $target_dist_base
-		cp -a $target_base/plugins $target_dist_base
-	done
+	mkdir -p $target_dist_base
+	cp -a $target_base/bin $target_dist_base
+	cp -a $target_base/lib $target_dist_base
+	cp -a $target_base/plugins $target_dist_base
 
 	cp -a distfiles/mac/README $dist_base
 else
