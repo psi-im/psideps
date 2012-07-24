@@ -45,6 +45,8 @@ Available modules
   aspell - windows only.
   gstbundle - windows and mac. windows version depends on zlib.
   qca - windows and mac. depends on qt and openssl. see below about qt vars.
+  psimedia - windows and mac. depends on qt and gstbundle. see below about qt
+    vars.
 
 Qt Environment Variables
 ------------------------
