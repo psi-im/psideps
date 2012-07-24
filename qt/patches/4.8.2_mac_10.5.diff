@@ -1,0 +1,27 @@
+diff -ru qt-everywhere-opensource-src-4.8.2.orig/src/3rdparty/webkit/Source/WebCore/platform/graphics/mac/MediaPlayerPrivateQTKit.mm qt-everywhere-opensource-src-4.8.2/src/3rdparty/webkit/Source/WebCore/platform/graphics/mac/MediaPlayerPrivateQTKit.mm
+--- qt-everywhere-opensource-src-4.8.2.orig/src/3rdparty/webkit/Source/WebCore/platform/graphics/mac/MediaPlayerPrivateQTKit.mm	2012-04-26 12:46:16.000000000 -0700
++++ qt-everywhere-opensource-src-4.8.2/src/3rdparty/webkit/Source/WebCore/platform/graphics/mac/MediaPlayerPrivateQTKit.mm	2012-07-24 12:13:06.000000000 -0700
+@@ -47,6 +47,11 @@
+ #import "SoftLinking.h"
+ #import "TimeRanges.h"
+ #import "WebCoreSystemInterface.h"
++
++#if defined(slots)
++#undef slots
++#endif
++
+ #import <QTKit/QTKit.h>
+ #import <objc/objc-runtime.h>
+ #import <wtf/UnusedParam.h>
+diff -ru qt-everywhere-opensource-src-4.8.2.orig/src/3rdparty/webkit/Source/WebCore/platform/mac/WebVideoFullscreenController.mm qt-everywhere-opensource-src-4.8.2/src/3rdparty/webkit/Source/WebCore/platform/mac/WebVideoFullscreenController.mm
+--- qt-everywhere-opensource-src-4.8.2.orig/src/3rdparty/webkit/Source/WebCore/platform/mac/WebVideoFullscreenController.mm	2012-04-26 12:46:16.000000000 -0700
++++ qt-everywhere-opensource-src-4.8.2/src/3rdparty/webkit/Source/WebCore/platform/mac/WebVideoFullscreenController.mm	2012-07-24 12:24:05.000000000 -0700
+@@ -417,7 +417,7 @@
+ 
+ - (void)_tickleTimerFired
+ {
+-    UpdateSystemActivity(OverallAct);
++    /* UpdateSystemActivity(OverallAct); */
+ }
+ 
+ - (void)updatePowerAssertions
