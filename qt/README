@@ -1,0 +1,24 @@
+Windows 32-bit
+--------------
+
+Builds available at qt.nokia.com
+
+Windows 64-bit
+--------------
+
+Unpack Qt source into C:\Qt\{version}-w64
+
+From MSYS shell:
+
+  export PATH=/c/mingw64/bin:$PATH
+  ./configure.exe -release -qt-style-windowsxp -qt-style-windowsvista
+  mingw32-make
+
+Mac 32/64-bit universal
+-----------------------
+
+Unpack Qt source somewhere. Then:
+
+  ./configure -release -arch x86 x86_64 -sdk /Developer/SDKs/MacOSX10.5.sdk
+  make
+  make install
