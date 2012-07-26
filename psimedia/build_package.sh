@@ -41,6 +41,8 @@ mkdir -p $arch_prefix
 touch $arch_prefix/test_writable
 rm $arch_prefix/test_writable
 
+export PATH=$base_prefix/../zlib/$target_arch/bin:$base_prefix/../gstbundle/$target_arch/bin:$PATH
+
 get_msys_path() {
 	if [ `expr index $1 :` -gt 0 ]; then
 		pdrive=`echo $1 | cut -f 1 --delimiter=:`
@@ -83,12 +85,24 @@ build_package_psimedia() {
 		cp -r include $arch_prefix
 		cp -r lib $arch_prefix
 	else
-		./configure --prefix=$arch_prefix --release
-		cat $patchdir/mac_universal.pri >> conf.pri
-		cat $patchdir/mac_universal.pri >> confapp.pri
+		patch -p1 < $patchdir/disable_video.diff
+		./configure --release
+		if [ "$target_arch" == "x86_64" ]; then
+			echo "contains(QT_CONFIG,x86_64):CONFIG += x86_64" >> conf.pri
+			echo "contains(QT_CONFIG,x86_64):CONFIG += x86_64" >> demo/demo.pro 
+		else
+			echo "contains(QT_CONFIG,x86):CONFIG += x86" >> conf.pri
+			echo "contains(QT_CONFIG,x86):CONFIG += x86" >> demo/demo.pro
+		fi
+		echo "QMAKE_MAC_SDK = /Developer/SDKs/MacOSX10.5.sdk" >> conf.pri
+		echo "QMAKE_MAC_SDK = /Developer/SDKs/MacOSX10.5.sdk" >> demo/demo.pro
 		$QTDIR/bin/qmake
 		make
-		make install
+
+		mkdir -p $arch_prefix/demo
+		mkdir -p $arch_prefix/plugins
+		cp demo/demo $arch_prefix/demo
+		cp gstprovider/libgstprovider.dylib $arch_prefix/plugins
 	fi
 }
 

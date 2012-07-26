@@ -1,0 +1,35 @@
+diff -ru psimedia-20120725.orig/gstprovider/gstelements/static/static.pro psimedia-20120725/gstprovider/gstelements/static/static.pro
+--- psimedia-20120725.orig/gstprovider/gstelements/static/static.pro	2012-07-25 19:59:07.000000000 -0700
++++ psimedia-20120725/gstprovider/gstelements/static/static.pro	2012-07-25 20:11:23.000000000 -0700
+@@ -5,8 +5,8 @@
+ DESTDIR = lib
+ 
+ CONFIG += videomaxrate liveadder speexdsp
+-windows:CONFIG += directsound winks
+-mac:CONFIG += osxaudio osxvideo
++windows:CONFIG += directsound #winks
++mac:CONFIG += osxaudio #osxvideo
+ 
+ *-g++*:QMAKE_CFLAGS_WARN_ON = -Wall -Wdeclaration-after-statement #-Werror
+ include(../../gstconf.pri)
+diff -ru psimedia-20120725.orig/gstprovider/gstthread.cpp psimedia-20120725/gstprovider/gstthread.cpp
+--- psimedia-20120725.orig/gstprovider/gstthread.cpp	2012-07-25 19:59:07.000000000 -0700
++++ psimedia-20120725/gstprovider/gstthread.cpp	2012-07-25 20:10:58.000000000 -0700
+@@ -230,7 +230,7 @@
+ #if defined(Q_OS_MAC)
+ 			reqelem
+ 			<< "osxaudiosrc" << "osxaudiosink"
+-			<< "osxvideosrc";
++			/*<< "osxvideosrc"*/;
+ #elif defined(Q_OS_LINUX)
+ 			reqelem
+ 			<< "alsasrc" << "alsasink"
+@@ -241,7 +241,7 @@
+ #elif defined(Q_OS_WIN)
+ 			reqelem
+ 			<< "directsoundsrc" << "directsoundsink"
+-			<< "ksvideosrc";
++			/*<< "ksvideosrc"*/;
+ #endif
+ 
+ 		foreach(const QString &name, reqelem)

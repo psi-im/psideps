@@ -1,4 +1,4 @@
 PACKAGES="psimedia"
 
-psimedia_file=psimedia.tar.bz2
-psimedia_url=http://psi-im.org/files/deps/psimedia.tar.bz2
+psimedia_file=psimedia-20120725.tar.bz2
+psimedia_url=http://psi-im.org/files/deps/psimedia-20120725.tar.bz2

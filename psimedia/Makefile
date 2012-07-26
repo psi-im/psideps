@@ -1,6 +1,6 @@
 UNAME := $(shell uname)
 PREFIX = /psidepsbase/psimedia
-VERSION = 2.0.3
+VERSION = 20120725
 
 include package_info
 
