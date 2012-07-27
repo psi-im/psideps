@@ -77,13 +77,26 @@ build_package_psimedia() {
 			qtdir=$QTDIR32
 		fi
 		mqtdir=`get_msys_path $qtdir`
-		cp $patchdir/configure.exe .
-		patch -p0 < $patchdir/gcc_4.7_fix.diff
-		PATH=$mqtdir/bin:$PATH ./configure.exe --qtdir=$qtdir --release
+
+		patch -p1 < $patchdir/disable_video.diff
+
+		if [ "$target_arch" == "x86_64" ]; then
+			cp $patchdir/gstconf_w64.pri gstprovider/gstconf.pri
+		else
+			cp $patchdir/gstconf_w32.pri gstprovider/gstconf.pri
+		fi
+
+		echo "CONFIG -= debug_and_release debug release" >> demo/demo.pro
+		echo "CONFIG += release" >> conf.pri
+		echo "CONFIG += release" >> demo/demo.pro
+
+		$mqtdir/bin/qmake
 		mingw32-make
-		cp -r bin $arch_prefix
-		cp -r include $arch_prefix
-		cp -r lib $arch_prefix
+
+		mkdir -p $arch_prefix/demo
+		mkdir -p $arch_prefix/plugins
+		cp demo/demo.exe $arch_prefix/demo
+		cp gstprovider/gstprovider.dll $arch_prefix/plugins
 	else
 		patch -p1 < $patchdir/disable_video.diff
 		./configure --release

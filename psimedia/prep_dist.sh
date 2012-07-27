@@ -90,10 +90,8 @@ else
 		target_dist_base=$dist_base/$target_arch
 
 		mkdir -p $target_dist_base
-		mkdir -p $target_dist_base/plugins
-
 		cp -a $target_base/demo $target_dist_base
-		cp -a $target_base/gstprovider/gstprovider.dll $target_dist_base/plugins
+		cp -a $target_base/plugins $target_dist_base
 	done
 
 	cp -a distfiles/win/README $dist_base
