@@ -46,12 +46,11 @@ build_package_aspell() {
 	cd aspell-*
 	patch -p0 < $patchdir/asc_ctype_fix.diff
 	patch -p1 < $patchdir/namespace_fix.diff
-	if [ "$target_arch" == "x86_64" ]; then
-		./configure --prefix=$arch_prefix
-	else
+	if [ "$target_arch" == "i386" ]; then
 		# seems we need to set location of objdump on i386
-		OBJDUMP=/mingw/bin/objdump ./configure --prefix=$arch_prefix
+		export OBJDUMP=/mingw/bin/objdump
 	fi
+	./configure --prefix=$arch_prefix
 	make
 	make install
 }
