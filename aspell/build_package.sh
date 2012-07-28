@@ -46,7 +46,12 @@ build_package_aspell() {
 	cd aspell-*
 	patch -p0 < $patchdir/asc_ctype_fix.diff
 	patch -p1 < $patchdir/namespace_fix.diff
-	./configure --prefix=$arch_prefix
+	if [ "$target_arch" == "x86_64" ]; then
+		./configure --prefix=$arch_prefix
+	else
+		# seems we need
+		OBJDUMP=/mingw/bin/objdump ./configure --prefix=$arch_prefix
+	fi
 	make
 	make install
 }
