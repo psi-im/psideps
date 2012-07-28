@@ -49,7 +49,7 @@ build_package_aspell() {
 	if [ "$target_arch" == "x86_64" ]; then
 		./configure --prefix=$arch_prefix
 	else
-		# seems we need
+		# seems we need to set location of objdump on i386
 		OBJDUMP=/mingw/bin/objdump ./configure --prefix=$arch_prefix
 	fi
 	make
