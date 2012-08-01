@@ -10,14 +10,19 @@ Prerequisites
     wget (mingw-get install msys-wget)
     patch (mingw-get install msys-patch)
     zip (mingw-get install msys-zip)
+    unzip (mingw-get install msys-unzip)
     bison (mingw-get install msys-bison)
     flex (mingw-get install msys-flex)
     perl (mingw-get install msys-perl, NOT ActiveState perl!)
+    Qt built for 32-bit x86 (available on qt.nokia.com)
+    Qt built for 64-bit x86 (you may need to build this yourself)
     Use an MSYS shell when building modules
 
   Mac:
     64-bit machine (even though universal binaries are produced)
     Xcode
+    Qt built for 32-bit/64-bit x86 universal (you may need to build this
+      yourself)
 
   Ensure you have access to create and/or write to the /psidepsbase directory.
   All modules are configured to use a prefix within that directory, and "sudo"
