@@ -8,6 +8,7 @@ Prerequisites
       get x86_64-w64-mingw32-gcc-4.7.0-3_rubenvb.7z
       extract to c:\mingw64, so that you have /c/mingw64/bin/gcc.exe, etc.
     wget (mingw-get install msys-wget)
+    coreutils (mingw-get install msys-coreutils)
     patch (mingw-get install msys-patch)
     zip (mingw-get install msys-zip)
     unzip (mingw-get install msys-unzip)
