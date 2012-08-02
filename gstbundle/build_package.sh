@@ -95,7 +95,7 @@ build_package_gettext() {
 		CC="gcc -arch $target_arch" CXX="g++ -arch $target_arch" ./configure --host=$target_platform --prefix=$arch_prefix
 	else
 		if [ "$target_arch" == "x86_64" ]; then
-			patch -p1 < $patchdir/gettext_vasprintf_conflict.diff
+			#patch -p1 < $patchdir/gettext_vasprintf_conflict.diff
 			patch -p1 < $patchdir/gettext_export_win64.diff
 			patch -p1 < $patchdir/gettext_ostream_win64.diff
 			echo "patching configure to be really slow"
