@@ -5,7 +5,7 @@ Prerequisites
     64-bit machine (required by the 64-bit toolchain)
     MinGW/MSYS (normal 32-bit install, version from August 1st, 2012 or later)
     Add 64-bit toolchain:
-      get x86_64-w64-mingw32-gcc-4.7.0-3_rubenvb.7z
+      get x86_64-w64-mingw32-gcc-4.7.1-release-win64_rubenvb.7z
       extract to c:\mingw64, so that you have /c/mingw64/bin/gcc.exe, etc.
     wget (mingw-get install msys-wget)
     coreutils (mingw-get install msys-coreutils)
