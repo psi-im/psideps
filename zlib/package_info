@@ -1,4 +1,4 @@
 PACKAGES="zlib"
 
-zlib_file=zlib-1.2.6.tar.bz2
-zlib_url=http://zlib.net/zlib-1.2.6.tar.bz2
+zlib_file=zlib-1.2.7.tar.bz2
+zlib_url=http://zlib.net/zlib-1.2.7.tar.bz2
