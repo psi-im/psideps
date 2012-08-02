@@ -219,6 +219,11 @@ build_package_gstreamer() {
 		CC="gcc -arch $target_arch" CXX="g++ -arch $target_arch" ./configure --host=$target_platform --prefix=$arch_prefix --disable-loadsave
 	else
 		./configure --prefix=$arch_prefix --disable-loadsave
+		if [ "$target_arch" == "x86_64" ]; then
+			# pthread needs to be linked for monotonic clock
+			cp gst/Makefile gst/Makefile.orig
+			sed -e "s/\(GST_ALL_LIBS .*\)/\1 -lpthread/g" gst/Makefile.orig > gst/Makefile
+		fi
 	fi
 	check_race_cond
 	make
