@@ -1,7 +1,16 @@
 Windows 32-bit
 --------------
 
-Builds available at qt.nokia.com
+Builds are available at qt.nokia.com, but they are not compatible with the
+latest MinGW. I've experienced crashing as a result so I suggest building your
+own.
+
+Unpack Qt source into C:\Qt\{version}
+
+From MSYS shell:
+
+  ./configure.exe -release -qt-style-windowsxp -qt-style-windowsvista
+  mingw32-make
 
 Windows 64-bit
 --------------
