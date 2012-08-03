@@ -78,10 +78,12 @@ For example:
 DirectX Files
 --------------
 
-When building psimedia, it is expected that the DirectX SDK is installed into
-C:\dxsdk, and that the directx mingw files [1] are stored in c:\dxmingw
+When building psimedia, it is expected that the DirectX SDK (June 2010) is
+installed into C:\dxsdk, with modifications [1], and that the directx mingw
+files [2] are stored in C:\dxmingw
 
-[1] http://psi-im.org/files/deps/dxmingw.zip
+[1] add "#define __null" near the top of Include/dsound.h
+[2] http://psi-im.org/files/deps/dxmingw.zip
 
 How it works
 ------------
