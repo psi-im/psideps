@@ -79,8 +79,9 @@ DirectX Files
 --------------
 
 When building psimedia, it is expected that the DirectX SDK is installed into
-C:\dxsdk, and that the directx mingw files from PortAudio are stored in
-c:\dxmingw
+C:\dxsdk, and that the directx mingw files [1] are stored in c:\dxmingw
+
+[1] http://psi-im.org/files/deps/dxmingw.zip
 
 How it works
 ------------
