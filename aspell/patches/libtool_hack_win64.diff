@@ -1,0 +1,38 @@
+--- libtool.orig	2012-08-03 01:27:29 -0700
++++ libtool	2012-08-03 01:28:38 -0700
+@@ -1651,20 +1651,21 @@
+     ;;
+   *ar\ archive*) # could be an import, or static
+     if eval $OBJDUMP -f $1 | $SED -e '10q' 2>/dev/null |
+-       $EGREP 'file format pe-i386(.*architecture: i386)?' >/dev/null ; then
+-      win32_nmres=`eval $NM -f posix -A $1 |
+-	$SED -n -e '
+-	    1,100{
+-		/ I /{
+-		    s,.*,import,
+-		    p
+-		    q
+-		}
+-	    }'`
+-      case $win32_nmres in
+-      import*)  win32_libid_type="x86 archive import";;
+-      *)        win32_libid_type="x86 archive static";;
+-      esac
++       $EGREP 'file format (pei*-i386(.*architecture: i386)?|pe-arm-wince|pe-x86-64)' >/dev/null ; then
++      win32_libid_type="x86 archive import"
++#      win32_nmres=`eval $NM -f posix -A $1 |
++#	$SED -n -e '
++#	    1,100{
++#		/ I /{
++#		    s,.*,import,
++#		    p
++#		    q
++#		}
++#	    }'`
++#      case $win32_nmres in
++#      import*)  win32_libid_type="x86 archive import";;
++#      *)        win32_libid_type="x86 archive static";;
++#      esac
+     fi
+     ;;
+   *DLL*)

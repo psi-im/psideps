@@ -46,11 +46,16 @@ build_package_aspell() {
 	cd aspell-*
 	patch -p0 < $patchdir/asc_ctype_fix.diff
 	patch -p1 < $patchdir/namespace_fix.diff
-	if [ "$target_arch" == "i386" ]; then
-		# seems we need to set location of objdump on i386
+	# seems we need to set the location of objdump for shared libs to build
+	if [ "$target_arch" == "x86_64" ]; then
+		export OBJDUMP=/c/mingw64/bin/objdump
+	else
 		export OBJDUMP=/mingw/bin/objdump
 	fi
 	./configure --prefix=$arch_prefix
+	if [ "$target_arch" == "x86_64" ]; then
+		patch -p0 < $patchdir/libtool_hack_win64.diff
+	fi
 	make
 	make install
 }
