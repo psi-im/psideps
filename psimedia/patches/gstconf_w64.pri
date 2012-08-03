@@ -8,7 +8,7 @@ include(../conf.pri)
 windows {
 	CONFIG += release
 
-	GSTBUNDLE_PREFIX=c:/gstbundle/x86_64
+	GSTBUNDLE_PREFIX=/c/mingw/msys/1.0/psidepsbase/gstbundle/x86_64
 	DXSDK_PREFIX=c:/dxsdk
 	#DXMINGW_PREFIX=c:/dxmingw
 	#DXMINGW_PREFIX=c:/dxsdk_sum2004
