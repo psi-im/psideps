@@ -1,6 +1,6 @@
 UNAME := $(shell uname)
 PREFIX = /psidepsbase/zlib
-VERSION = 1.2.6
+VERSION = 1.2.7
 
 include package_info
 
