@@ -206,6 +206,7 @@ build_package_libspeex() {
 		CC="gcc -arch $target_arch" CXX="g++ -arch $target_arch" ./configure --host=$target_platform --prefix=$arch_prefix
 	else
 		./configure --prefix=$arch_prefix
+		patch -p0 < $patchdir/speex_hack_win64.diff
 	fi
 	check_race_cond
 	make
