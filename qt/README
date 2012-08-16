@@ -28,6 +28,7 @@ Mac 32/64-bit universal
 
 Unpack Qt source somewhere. Then:
 
+  patch -p1 < 4.8.2_mac_10.5.diff
   ./configure -release -arch x86 -arch x86_64 -sdk /Developer/SDKs/MacOSX10.5.sdk
   make
   make install
