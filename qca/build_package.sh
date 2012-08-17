@@ -99,6 +99,7 @@ build_package_qca() {
 build_package_qca_ossl() {
 	tar jxvf $pkgdir/$qca_ossl_file
 	cd qca-ossl-*
+	patch -p0 < $patchdir/qca203.diff
 	if [ "$platform" == "win" ]; then
 		if [ "$target_arch" == "x86_64" ]; then
 			qtdir=$QTDIR64
