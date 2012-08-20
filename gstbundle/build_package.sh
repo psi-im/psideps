@@ -217,7 +217,11 @@ build_package_orc() {
 	tar zxvf $pkgdir/$orc_file
 	cd orc-*
 	if [ "$platform" == "mac" ]; then
-		CC="gcc -arch $target_arch" CXX="g++ -arch $target_arch" ./configure --host=$target_platform --prefix=$arch_prefix
+		CC="gcc -arch $target_arch" CXX="g++ -arch $target_arch" ./configure --prefix=$arch_prefix
+
+		# workaround gcc 4.2.1 bugs on mac by disabling optimizations
+		cp testsuite/orcc/Makefile testsuite/orcc/Makefile.orig
+		sed -e "s/CFLAGS = -g -O2/CFLAGS = -g/g" testsuite/orcc/Makefile.orig > testsuite/orcc/Makefile
 	else
 		./configure --prefix=$arch_prefix
 	fi
