@@ -44,6 +44,15 @@ mkdir -p $dist_base
 TARGET_ARCHES="i386 x86_64"
 
 if [ "$platform" == "mac" ]; then
+	GST_PLUGINS=
+	for n in `find $destdir$base_prefix/i386/gstreamer-0.10 -name \*.dylib`; do
+		base_n=`basename $n`
+		if [ ! -f "$destdir$base_prefix/x86_64/gstreamer-0.10/$base_n" ]; then
+			continue
+		fi
+		GST_PLUGINS="$GST_PLUGINS $base_n"
+	done
+
 	for target_arch in $TARGET_ARCHES; do
 		target_base=$destdir$base_prefix/$target_arch
 		target_dist_base=$dist_base/$target_arch
@@ -54,6 +63,7 @@ if [ "$platform" == "mac" ]; then
 
 		cp -a $target_base/demo $target_dist_base
 		cp -a $target_base/plugins $target_dist_base
+		cp -a $target_base/gstreamer-0.10 $target_dist_base
 
 		for g in $QT_FRAMEWORKS; do
 			install_name_tool -change $QTDIR/lib/$g.framework/Versions/4/$g $g.framework/Versions/4/$g $target_dist_base/demo/demo
@@ -61,11 +71,16 @@ if [ "$platform" == "mac" ]; then
 		done
 
 		cleanlibpaths $target_dist_base/plugins/libgstprovider.dylib /psidepsbase/gstbundle/$target_arch/lib/ # note: trailing slash important
+
+		for g in $GST_PLUGINS; do
+			cleanlibpaths $target_dist_base/gstreamer-0.10/$g /psidepsbase/gstbundle/$target_arch/lib/ # note: trailing slash important
+		done
 	done
 
 	mkdir -p $dist_base
 	mkdir -p $dist_base/uni/demo
 	mkdir -p $dist_base/uni/plugins
+	mkdir -p $dist_base/uni/gstreamer-0.10
 
 	PARTS=
 	for target_arch in $TARGET_ARCHES; do
@@ -79,10 +94,18 @@ if [ "$platform" == "mac" ]; then
 	done
 	lipo -output $dist_base/uni/plugins/libgstprovider.dylib -create $PARTS
 
+	for g in $GST_PLUGINS; do
+		PARTS=
+		for target_arch in $TARGET_ARCHES; do
+			PARTS="$PARTS $dist_base/$target_arch/gstreamer-0.10/$g"
+		done
+		lipo -output $dist_base/uni/gstreamer-0.10/$g -create $PARTS
+	done
+
 	for target_arch in $TARGET_ARCHES; do
 		rm -rf $dist_base/$target_arch
 	done
-	mv $dist_base/uni/demo $dist_base/uni/plugins $dist_base
+	mv $dist_base/uni/demo $dist_base/uni/plugins $dist_base/uni/gstreamer-0.10 $dist_base
 	rmdir $dist_base/uni
 else
 	for target_arch in $TARGET_ARCHES; do
@@ -92,6 +115,7 @@ else
 		mkdir -p $target_dist_base
 		cp -a $target_base/demo $target_dist_base
 		cp -a $target_base/plugins $target_dist_base
+		cp -a $target_base/gstreamer-0.10 $target_dist_base
 	done
 
 	cp -a distfiles/win/README $dist_base
