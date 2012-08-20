@@ -1,3 +1,14 @@
+diff -ru psimedia-20120725.orig/gstprovider/gstelements/shared/shared.pro psimedia-20120725/gstprovider/gstelements/shared/shared.pro
+--- psimedia-20120725.orig/gstprovider/gstelements/shared/shared.pro	2012-07-25 19:59:07.000000000 -0700
++++ psimedia-20120725/gstprovider/gstelements/shared/shared.pro	2012-07-25 20:11:23.000000000 -0700
+@@ -1,5 +1,5 @@
+ TEMPLATE = subdirs
+ 
+ SUBDIRS += videomaxrate liveadder speexdsp
+-windows:SUBDIRS += directsound winks
+-mac:SUBDIRS += osxaudio osxvideo
++windows:SUBDIRS += directsound #winks
++mac:SUBDIRS += osxaudio #osxvideo
 diff -ru psimedia-20120725.orig/gstprovider/gstelements/static/static.pro psimedia-20120725/gstprovider/gstelements/static/static.pro
 --- psimedia-20120725.orig/gstprovider/gstelements/static/static.pro	2012-07-25 19:59:07.000000000 -0700
 +++ psimedia-20120725/gstprovider/gstelements/static/static.pro	2012-07-25 20:11:23.000000000 -0700

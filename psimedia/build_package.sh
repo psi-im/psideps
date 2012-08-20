@@ -93,10 +93,18 @@ build_package_psimedia() {
 		$mqtdir/bin/qmake
 		mingw32-make
 
+		# build shared plugins too
+		cd gstprovider/gstelements/shared
+		$mqtdir/bin/qmake
+		mingw32-make
+		cd ../../..
+
 		mkdir -p $arch_prefix/demo
 		mkdir -p $arch_prefix/plugins
+		mkdir -p $arch_prefix/gstreamer-0.10
 		cp demo/demo.exe $arch_prefix/demo
 		cp gstprovider/gstprovider.dll $arch_prefix/plugins
+		cp gstprovider/gstelements/shared/lib/*.dll $arch_prefix/gstreamer-0.10
 	else
 		patch -p1 < $patchdir/disable_video.diff
 		./configure --release
@@ -112,10 +120,18 @@ build_package_psimedia() {
 		$QTDIR/bin/qmake
 		make
 
+		# build shared plugins too
+		cd gstprovider/gstelements/shared
+		$QTDIR/bin/qmake
+		make
+		cd ../../..
+
 		mkdir -p $arch_prefix/demo
 		mkdir -p $arch_prefix/plugins
+		mkdir -p $arch_prefix/gstreamer-0.10
 		cp demo/demo $arch_prefix/demo
 		cp gstprovider/libgstprovider.dylib $arch_prefix/plugins
+		cp gstprovider/gstelements/shared/lib/*.dylib $arch_prefix/gstreamer-0.10
 	fi
 }
 
