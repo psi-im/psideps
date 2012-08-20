@@ -255,11 +255,12 @@ build_package_gstbase() {
 	if [ "$platform" == "mac" ]; then
 		CC="gcc -arch $target_arch" CXX="g++ -arch $target_arch" ./configure --host=$target_platform --prefix=$arch_prefix
 
+		# note: seems we don't need this workaround when orc is used?
 		# workaround gcc 4.2.1 bugs on mac by disabling optimizations
-		cp gst/audioconvert/Makefile gst/audioconvert/Makefile.orig
-		sed -e "s/CFLAGS = -g -O2/CFLAGS = -g/g" gst/audioconvert/Makefile.orig > gst/audioconvert/Makefile
-		cp gst/volume/Makefile gst/volume/Makefile.orig
-		sed -e "s/CFLAGS = -g -O2/CFLAGS = -g/g" gst/volume/Makefile.orig > gst/volume/Makefile
+		#cp gst/audioconvert/Makefile gst/audioconvert/Makefile.orig
+		#sed -e "s/CFLAGS = -g -O2/CFLAGS = -g/g" gst/audioconvert/Makefile.orig > gst/audioconvert/Makefile
+		#cp gst/volume/Makefile gst/volume/Makefile.orig
+		#sed -e "s/CFLAGS = -g -O2/CFLAGS = -g/g" gst/volume/Makefile.orig > gst/volume/Makefile
 	else
 		./configure --prefix=$arch_prefix
 	fi
