@@ -213,6 +213,19 @@ build_package_libspeex() {
 	make install
 }
 
+build_package_orc() {
+	tar zxvf $pkgdir/$orc_file
+	cd orc-*
+	if [ "$platform" == "mac" ]; then
+		CC="gcc -arch $target_arch" CXX="g++ -arch $target_arch" ./configure --host=$target_platform --prefix=$arch_prefix
+	else
+		./configure --prefix=$arch_prefix
+	fi
+	check_race_cond
+	make
+	make install
+}
+
 build_package_gstreamer() {
 	tar jxvf $pkgdir/$gstreamer_file
 	cd gstreamer-*

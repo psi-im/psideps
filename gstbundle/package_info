@@ -31,6 +31,9 @@ libtheora_url=http://downloads.xiph.org/releases/theora/libtheora-1.1.1.tar.bz2
 libspeex_file=speex-1.2rc1.tar.gz
 libspeex_url=http://downloads.xiph.org/releases/speex/speex-1.2rc1.tar.gz
 
+orc_file=orc-0.4.16.tar.gz
+orc_url=http://code.entropywave.com/download/orc/orc-0.4.16.tar.gz
+
 gstreamer_file=gstreamer-0.10.36.tar.bz2
 gstreamer_url=http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-0.10.36.tar.bz2
 
