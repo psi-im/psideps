@@ -1,0 +1,47 @@
+diff --git a/gstprovider/gstelements/osxaudio/gstosxaudiosrc.c b/gstprovider/gstelements/osxaudio/gstosxaudiosrc.c
+index 9df46dc..48299d2 100644
+--- a/gstprovider/gstelements/osxaudio/gstosxaudiosrc.c
++++ b/gstprovider/gstelements/osxaudio/gstosxaudiosrc.c
+@@ -181,6 +181,7 @@ gst_osx_audio_src_init (GstOsxAudioSrc * src, GstOsxAudioSrcClass * gclass)
+   gst_base_src_set_live (GST_BASE_SRC (src), TRUE);
+ 
+   src->device_id = kAudioDeviceUnknown;
++  src->deviceRate = -1;
+   src->deviceChannels = -1;
+ }
+ 
+@@ -253,6 +254,8 @@ gst_osx_audio_src_get_caps (GstBaseSrc * src)
+         NULL);
+   }
+ 
++  gst_caps_set_simple (caps, "rate", G_TYPE_INT, osxsrc->deviceRate, NULL);
++
+   return caps;
+ }
+ 
+diff --git a/gstprovider/gstelements/osxaudio/gstosxaudiosrc.h b/gstprovider/gstelements/osxaudio/gstosxaudiosrc.h
+index a812d9e..efdfd8b 100644
+--- a/gstprovider/gstelements/osxaudio/gstosxaudiosrc.h
++++ b/gstprovider/gstelements/osxaudio/gstosxaudiosrc.h
+@@ -66,7 +66,8 @@ struct _GstOsxAudioSrc
+ 
+   AudioDeviceID device_id;
+ 
+-  /* actual number of channels reported by input device */
++  /* actual capabilities reported by input device */
++  int deviceRate;
+   int deviceChannels;
+ };
+ 
+diff --git a/gstprovider/gstelements/osxaudio/gstosxringbuffer.c b/gstprovider/gstelements/osxaudio/gstosxringbuffer.c
+index 67abd4d..949ca54 100644
+--- a/gstprovider/gstelements/osxaudio/gstosxringbuffer.c
++++ b/gstprovider/gstelements/osxaudio/gstosxringbuffer.c
+@@ -258,6 +258,7 @@ gst_osx_ring_buffer_open_device (GstRingBuffer * buf)
+       return FALSE;
+     }
+ 
++    src->deviceRate = (int)asbd_in.mSampleRate;
+     src->deviceChannels = asbd_in.mChannelsPerFrame;
+   } else {
+     sink = GST_OSX_AUDIO_SINK (GST_OBJECT_PARENT (buf));

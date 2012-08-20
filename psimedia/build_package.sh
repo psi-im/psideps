@@ -70,6 +70,8 @@ build_package() {
 build_package_psimedia() {
 	tar jxvf $pkgdir/$psimedia_file
 	cd psimedia-*
+	patch -p1 < $patchdir/disable_video.diff
+	patch -p1 < $patchdir/osxaudio_fixedrate.diff
 	if [ "$platform" == "win" ]; then
 		if [ "$target_arch" == "x86_64" ]; then
 			qtdir=$QTDIR64
@@ -77,8 +79,6 @@ build_package_psimedia() {
 			qtdir=$QTDIR32
 		fi
 		mqtdir=`get_msys_path $qtdir`
-
-		patch -p1 < $patchdir/disable_video.diff
 
 		if [ "$target_arch" == "x86_64" ]; then
 			cp $patchdir/gstconf_w64.pri gstprovider/gstconf.pri
@@ -106,7 +106,6 @@ build_package_psimedia() {
 		cp gstprovider/gstprovider.dll $arch_prefix/plugins
 		cp gstprovider/gstelements/shared/lib/*.dll $arch_prefix/gstreamer-0.10
 	else
-		patch -p1 < $patchdir/disable_video.diff
 		./configure --release
 		if [ "$target_arch" == "x86_64" ]; then
 			echo "contains(QT_CONFIG,x86_64):CONFIG += x86_64" >> conf.pri
