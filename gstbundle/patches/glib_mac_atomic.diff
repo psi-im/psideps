@@ -1,0 +1,73 @@
+diff -ru glib-2.32.0.orig/config.h.in glib-2.32.0/config.h.in
+--- glib-2.32.0.orig/config.h.in	2012-03-23 20:02:41.000000000 -0700
++++ glib-2.32.0/config.h.in	2012-08-24 18:16:10.000000000 -0700
+@@ -168,6 +168,9 @@
+ /* Define to 1 if you have the `fsync' function. */
+ #undef HAVE_FSYNC
+ 
++/* we have __sync_synchronize in gcc */
++#undef HAVE_GCC_SYNC_SYNCHRONIZE
++
+ /* we have the futex(2) system call */
+ #undef HAVE_FUTEX
+ 
+diff -ru glib-2.32.0.orig/configure glib-2.32.0/configure
+--- glib-2.32.0.orig/configure	2012-03-23 20:02:40.000000000 -0700
++++ glib-2.32.0/configure	2012-08-24 18:15:08.000000000 -0700
+@@ -26787,7 +26787,8 @@
+ int
+ main ()
+ {
+-__GCC_HAVE_SYNC_COMPARE_AND_SWAP_4;
++  __sync_synchronize();
++//__GCC_HAVE_SYNC_COMPARE_AND_SWAP_4;
+   ;
+   return 0;
+ }
+@@ -26811,7 +26812,8 @@
+ int
+ main ()
+ {
+-__GCC_HAVE_SYNC_COMPARE_AND_SWAP_4;
++  __sync_synchronize();
++//__GCC_HAVE_SYNC_COMPARE_AND_SWAP_4;
+   ;
+   return 0;
+ }
+@@ -26823,6 +26825,12 @@
+   CFLAGS="${SAVE_CFLAGS}"
+ fi
+ 
++if test x"$glib_cv_g_atomic_lock_free" = xyes; then
++
++$as_echo "#define HAVE_GCC_SYNC_SYNCHRONIZE 1" >>confdefs.h
++
++fi
++
+ case $host_cpu in
+   i?86|x86_64|s390|s390x|arm*|crisv32*|etrax*)
+     glib_memory_barrier_needed=no
+diff -ru glib-2.32.0.orig/glib/gatomic.c glib-2.32.0/glib/gatomic.c
+--- glib-2.32.0.orig/glib/gatomic.c	2012-03-11 17:42:41.000000000 -0700
++++ glib-2.32.0/glib/gatomic.c	2012-08-24 18:21:00.000000000 -0700
+@@ -96,7 +96,7 @@
+  * implement the atomic operations in a lock-free manner.
+  */
+ 
+-#if defined (__GCC_HAVE_SYNC_COMPARE_AND_SWAP_4)
++#if defined (HAVE_GCC_SYNC_SYNCHRONIZE)
+ /**
+  * g_atomic_int_get:
+  * @atomic: a pointer to a #gint or #guint
+diff -ru glib-2.32.0.orig/glib/gatomic.h glib-2.32.0/glib/gatomic.h
+--- glib-2.32.0.orig/glib/gatomic.h	2012-03-11 17:42:41.000000000 -0700
++++ glib-2.32.0/glib/gatomic.h	2012-08-24 18:20:44.000000000 -0700
+@@ -68,7 +68,7 @@
+ 
+ G_END_DECLS
+ 
+-#if defined(G_ATOMIC_LOCK_FREE) && defined(__GCC_HAVE_SYNC_COMPARE_AND_SWAP_4)
++#if defined(G_ATOMIC_LOCK_FREE) && defined(HAVE_GCC_SYNC_SYNCHRONIZE)
+ 
+ #define g_atomic_int_get(atomic) \
+   (G_GNUC_EXTENSION ({                                                          \

@@ -117,6 +117,7 @@ build_package_glib() {
 	tar jxvf $pkgdir/$glib_file
 	cd glib-*
 	if [ "$platform" == "mac" ]; then
+		patch -p1 < $patchdir/glib_mac_atomic.diff
 		CFLAGS=-I$arch_prefix/include LDFLAGS=-L$arch_prefix/lib LIBFFI_CFLAGS=-I/Developer/SDKs/MacOSX10.5.sdk/usr/include/ffi LIBFFI_LIBS=-lffi CC="gcc -arch $target_arch" CXX="g++ -arch $target_arch" ./configure --host=$target_platform --prefix=$arch_prefix
 	else
 		patch -p0 < $patchdir/glib_nopython.diff
