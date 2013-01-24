@@ -183,6 +183,7 @@ QCA_INCDIR = c:/mingw/msys/1.0$base_prefix/../qca/$target_arch/include
 QCA_LIBDIR = c:/mingw/msys/1.0$base_prefix/../qca/$target_arch/lib
 EOT
 		cat $patchdir/qcaconf >> conf_win.pri
+		patch -p0 < $patchdir/fix_mingw.diff
 		PATH=$mqtdir/bin:$PATH $mqtdir/bin/qmake
 		mingw32-make
 	else
