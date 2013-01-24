@@ -45,6 +45,10 @@ packages/$(qca_gnupg_file):
 	mkdir -p packages
 	../fetch.sh $(qca_gnupg_url) packages/$(qca_gnupg_file)
 
+packages/$(qca_wingss_file):
+	mkdir -p packages
+	../fetch.sh $(qca_wingss_url) packages/$(qca_wingss_file)
+
 build/i386/qca/ok: packages/$(qca_file)
 	mkdir -p build
 	./build_package.sh qca i386 $(PREFIX) $(PWD)/install
@@ -90,10 +94,20 @@ build/uni/qca_gnupg/ok: packages/$(qca_gnupg_file)
 	./build_package.sh qca_gnupg "" $(PREFIX) $(PWD)/install
 	touch build/uni/qca_gnupg/ok
 
+build/i386/qca_wingss/ok: packages/$(qca_wingss_file)
+	mkdir -p build
+	./build_package.sh qca_wingss i386 $(PREFIX) $(PWD)/install
+	touch build/i386/qca_wingss/ok
+
+build/x86_64/qca_wingss/ok: packages/$(qca_wingss_file)
+	mkdir -p build
+	./build_package.sh qca_wingss x86_64 $(PREFIX) $(PWD)/install
+	touch build/x86_64/qca_wingss/ok
+
 dist/qca-$(VERSION)-mac: build/uni/qca/ok build/uni/qca_ossl/ok build/uni/qca_gnupg/ok
 	./prep_dist.sh $(PWD)/install $(PREFIX) dist/qca-$(VERSION)-mac
 
-dist/qca-$(VERSION)-win: build/i386/qca/ok build/x86_64/qca/ok build/i386/qca_ossl/ok build/x86_64/qca_ossl/ok build/i386/qca_gnupg/ok build/x86_64/qca_gnupg/ok
+dist/qca-$(VERSION)-win: build/i386/qca/ok build/x86_64/qca/ok build/i386/qca_ossl/ok build/x86_64/qca_ossl/ok build/i386/qca_gnupg/ok build/x86_64/qca_gnupg/ok build/i386/qca_wingss/ok build/x86_64/qca_wingss/ok
 	./prep_dist.sh $(PWD)/install $(PREFIX) dist/qca-$(VERSION)-win
 
 qca-$(VERSION)-mac.tar.bz2: dist/qca-$(VERSION)-mac

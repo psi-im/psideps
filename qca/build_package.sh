@@ -163,6 +163,44 @@ EOT
 	fi
 }
 
+build_package_qca_wingss() {
+	tar jxvf $pkgdir/$qca_wingss_file
+	cd qca-wingss-*
+	if [ "$platform" == "win" ]; then
+		if [ "$target_arch" == "x86_64" ]; then
+			qtdir=$QTDIR64
+		else
+			qtdir=$QTDIR32
+		fi
+		mqtdir=`get_msys_path $qtdir`
+		sed -e "s/windows:CONFIG += crypto/#windows:CONFIG += crypto/g" qca-wingss.pro > qca-wingss.pro.tmp
+		mv qca-wingss.pro.tmp qca-wingss.pro
+		cat > conf_win.pri <<EOT
+CONFIG -= debug release debug_and_release
+CONFIG += release
+
+QCA_INCDIR = c:/mingw/msys/1.0$base_prefix/../qca/$target_arch/include
+QCA_LIBDIR = c:/mingw/msys/1.0$base_prefix/../qca/$target_arch/lib
+EOT
+		cat $patchdir/qcaconf >> conf_win.pri
+		PATH=$mqtdir/bin:$PATH $mqtdir/bin/qmake
+		mingw32-make
+	else
+		./configure --release --with-qca=$arch_prefix
+		cat $patchdir/mac_universal.pri >> conf.pri
+		$QTDIR/bin/qmake
+		make
+	fi
+
+	mkdir -p $arch_prefix/plugins/crypto
+
+	if [ "$platform" == "win" ]; then
+		cp lib/*.dll $arch_prefix/plugins/crypto
+	else
+		cp lib/*.dylib $arch_prefix/plugins/crypto
+	fi
+}
+
 if [ "$target_arch" != "" ]; then
 	build_package $package_name $target_arch
 else
