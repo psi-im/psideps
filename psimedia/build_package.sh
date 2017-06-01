@@ -6,16 +6,7 @@ if [ $# != 4 ]; then
 	exit 1
 fi
 
-platform=`uname -s`
-if [ "$platform" == "Darwin" ]; then
-	platform=mac
-elif [ "$platform" == "MINGW32_NT-6.1" ]; then
-	platform=win
-else
-	echo "error: unsupported platform $platform"
-	exit 1
-fi
-
+. ../detect_platform.sh
 source ./package_info
 
 package_name=$1
@@ -25,7 +16,6 @@ destdir=$4
 
 if [ "$platform" == "mac" ]; then
 	target_platform=$target_arch-apple-darwin
-	export MACOSX_DEPLOYMENT_TARGET=10.5
 else
 	if [ "$target_arch" == "x86_64" ]; then
 		export PATH=/c/mingw64/bin:$PATH

@@ -1,22 +1,14 @@
-UNAME := $(shell uname)
+include ../detect_platform.mk
 PREFIX = /psidepsbase/psimedia
-VERSION = 20120725
+VERSION = 1.0.5
 
 include package_info
 
-ifeq ($(UNAME), Darwin)
-PLATFORM = mac
-all: default-mac
-else ifeq ($(UNAME), MINGW32_NT-6.1)
-PLATFORM = win
-all: default-mingw
-else
-all: default-unknown
-endif
+all: $(DEFAULT_TARGET)
 
 default-mac: dist-mac
 
-default-mingw: dist-mingw
+default-win: dist-win
 
 clean:
 	rm -rf build $(PREFIX) dist

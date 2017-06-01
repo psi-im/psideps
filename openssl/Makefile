@@ -1,17 +1,12 @@
-UNAME := $(shell uname)
 PREFIX = /psidepsbase/openssl
-VERSION = 1.0.1c
+VERSION = 1.0.2l
 
 include package_info
 
-ifeq ($(UNAME), MINGW32_NT-6.1)
-PLATFORM = win
-all: default-mingw
-else
-all: default-unknown
-endif
+../detect_platform.mk
+all: $(DEFAULT_TARGET)
 
-default-mingw: dist
+default-win: dist
 
 clean:
 	rm -rf build $(PREFIX) dist

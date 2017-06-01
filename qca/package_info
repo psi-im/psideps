@@ -1,13 +1,5 @@
 PACKAGES="qca qca_ossl qca_gnupg qca_wingss"
 
-qca_file=qca-2.0.3.tar.bz2
-qca_url=http://delta.affinix.com/download/qca/2.0/qca-2.0.3.tar.bz2
+qca_file=qca-2.1.4_rc1.tar.gz
+qca_url=https://github.com/KDE/qca/archive/5f18ebc705ec98e883aa63cb537e36e6a08b7e34.tar.gz
 
-qca_ossl_file=qca-ossl-20120816-psi.tar.bz2
-qca_ossl_url=http://psi-im.org/files/deps/qca-ossl-20120816-psi.tar.bz2
-
-qca_gnupg_file=qca-gnupg-2.0.0-beta3-1.tar.bz2
-qca_gnupg_url=http://psi-im.org/files/deps/qca-gnupg-2.0.0-beta3-1.tar.bz2
-
-qca_wingss_file=qca-wingss-2.0.0-beta1.tar.bz2
-qca_wingss_url=http://delta.affinix.com/download/qca/2.0/plugins/qca-wingss-2.0.0-beta1.tar.bz2

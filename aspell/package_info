@@ -1,7 +1,7 @@
 PACKAGES="aspell aspell_en"
 
-aspell_file=aspell-0.60.6.1.tar.gz
-aspell_url=ftp://ftp.gnu.org/gnu/aspell/aspell-0.60.6.1.tar.gz
+aspell_file=aspell-0.60.7-rc1.tar.gz
+aspell_url=ftp://ftp.gnu.org/gnu/aspell/aspell-0.60.7-rc1.tar.gz
 
-aspell_en_file=aspell6-en-7.1-0.tar.bz2
-aspell_en_url=ftp://ftp.gnu.org/gnu/aspell/dict/en/aspell6-en-7.1-0.tar.bz2
+aspell_en_file=aspell6-en-2017.01.22-0.tar.bz2
+aspell_en_url=ftp://ftp.gnu.org/gnu/aspell/dict/en/aspell6-en-2017.01.22-0.tar.bz2

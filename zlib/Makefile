@@ -1,17 +1,10 @@
-UNAME := $(shell uname)
+include ../detect_platform.mk
 PREFIX = /psidepsbase/zlib
-VERSION = 1.2.7
+VERSION = 1.2.11
 
 include package_info
 
-ifeq ($(UNAME), MINGW32_NT-6.1)
-PLATFORM = win
-all: default-mingw
-else
-all: default-unknown
-endif
-
-default-mingw: dist
+default-win: dist
 
 clean:
 	rm -rf build $(PREFIX) dist
