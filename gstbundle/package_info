@@ -10,8 +10,8 @@ gettext_file=gettext-0.19.8.1.tar.gz
 gettext_url=http://ftp.gnu.org/pub/gnu/gettext/gettext-0.19.8.1.tar.gz
 
 # repackaged as bz2 and hosted on psi-im.org, so you don't need xzdec
-glib_file=glib-2.50.3.tar.bz2
-glib_url=http://psi-im.org/files/deps/glib-2.50.3.tar.bz2
+glib_file=glib-2.50.3.tar.xz
+glib_url=https://download.gnome.org/sources/glib/2.50/glib-2.50.3.tar.xz
 
 pkgconfig_file=pkg-config-0.29.2.tar.gz
 pkgconfig_url=http://pkgconfig.freedesktop.org/releases/pkg-config-0.29.2.tar.gz

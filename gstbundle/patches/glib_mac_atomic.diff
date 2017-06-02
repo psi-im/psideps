@@ -24,19 +24,9 @@ diff -ru glib-2.32.0.orig/configure glib-2.32.0/configure
    ;
    return 0;
  }
-@@ -26811,7 +26812,8 @@
- int
- main ()
- {
--__GCC_HAVE_SYNC_COMPARE_AND_SWAP_4;
-+  __sync_synchronize();
-+//__GCC_HAVE_SYNC_COMPARE_AND_SWAP_4;
-   ;
-   return 0;
- }
 @@ -26823,6 +26825,12 @@
-   CFLAGS="${SAVE_CFLAGS}"
- fi
+   ;;
+ esac
  
 +if test x"$glib_cv_g_atomic_lock_free" = xyes; then
 +
