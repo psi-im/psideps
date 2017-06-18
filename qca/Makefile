@@ -1,6 +1,6 @@
 UNAME := $(shell uname)
 PREFIX = /psidepsbase/qca
-VERSION = 2.1.4_rc1
+VERSION = 2.1.3
 
 include package_info
 

@@ -8,7 +8,7 @@ fi
 WGET=`which wget`
 if [ ! -z "$WGET" ]; then
 	echo $WGET -O $2 $1
-	$WGET -O $2 $1
+	$WGET -O $2 $1 || rm $2
 else
 	CURL=`which curl`
 	if [ ! -z "$CURL" ]; then

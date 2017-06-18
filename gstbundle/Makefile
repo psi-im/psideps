@@ -82,6 +82,10 @@ packages/$(gstgood_file):
 	mkdir -p packages
 	../fetch.sh $(gstgood_url) packages/$(gstgood_file)
 
+packages/$(pcre_file):
+	mkdir -p packages
+	../fetch.sh $(pcre_url) packages/$(pcre_file)
+
 build/i386/libiconv/ok: packages/$(libiconv_file)
 	mkdir -p build
 	./build_package.sh libiconv i386 $(PREFIX) $(PWD)/install
@@ -112,12 +116,17 @@ build/x86_64/gettext/ok: packages/$(gettext_file)
 	./build_package.sh gettext x86_64 $(PREFIX) $(PWD)/install
 	touch build/x86_64/gettext/ok
 
-build/i386/glib/ok: packages/$(glib_file)
+build/x86_64/pcre/ok: packages/$(pcre_file)
+	mkdir -p build
+	./build_package.sh pcre x86_64 $(PREFIX) $(PWD)/install
+	touch build/x86_64/pcre/ok
+
+build/i386/glib/ok: packages/$(glib_file) build/i386/pkgconfig/ok build/i386/pcre/ok
 	mkdir -p build
 	./build_package.sh glib i386 $(PREFIX) $(PWD)/install
 	touch build/i386/glib/ok
 
-build/x86_64/glib/ok: packages/$(glib_file)
+build/x86_64/glib/ok: packages/$(glib_file) build/x86_64/pkgconfig/ok build/x86_64/pcre/ok build/x86_64/libffi/ok
 	mkdir -p build
 	./build_package.sh glib x86_64 $(PREFIX) $(PWD)/install
 	touch build/x86_64/glib/ok

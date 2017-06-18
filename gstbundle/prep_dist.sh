@@ -6,15 +6,7 @@ if [ $# != 3 ]; then
 	exit 1
 fi
 
-platform=`uname -s`
-if [ "$platform" == "Darwin" ]; then
-	platform=mac
-elif [ "$platform" == "MINGW32_NT-6.1" ]; then
-	platform=win
-else
-	echo "error: unsupported platform $platform"
-	exit 1
-fi
+. ../detect_platform.sh
 
 #destdir=$1
 destdir=
@@ -25,7 +17,7 @@ mkdir -p $dist_base
 
 if [ "$platform" == "mac" ]; then
 
-TARGET_ARCHES="i386 x86_64"
+TARGET_ARCHES="x86_64"
 
 for target_arch in $TARGET_ARCHES; do
 	target_base=$destdir$base_prefix/$target_arch

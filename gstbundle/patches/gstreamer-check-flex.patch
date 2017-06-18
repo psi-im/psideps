@@ -1,0 +1,22 @@
+--- common/m4/gst-parser.m4	2017-06-18 16:32:04.000000000 +0500
++++ common/m4/gst-parser.m4	2017-06-18 16:33:36.000000000 +0500
+@@ -34,7 +34,7 @@
+   dnl we need version >= 2.5.31 for the reentrancy support
+   dnl in the parser.
+   flex_min_version=2.5.31
+-  flex_version=`$FLEX_PATH --version | head -n 1 | sed 's/^.* //' | sed 's/[[a-zA-Z]]*$//' | cut -d' ' -f1`
++  flex_version=`$FLEX_PATH --version | grep -oE '\d+\.\d+\.(\d+)?'`
+   AC_MSG_CHECKING([flex version $flex_version >= $flex_min_version])
+   if perl -w <<EOF
+     (\$min_version_major, \$min_version_minor, \$min_version_micro ) = "$flex_min_version" =~ /(\d+)\.(\d+)\.(\d+)/;
+--- configure	2017-06-18 16:35:05.000000000 +0500
++++ configure	2017-06-18 16:36:40.000000000 +0500
+@@ -21304,7 +21304,7 @@
+   fi
+ 
+         flex_min_version=2.5.31
+-  flex_version=`$FLEX_PATH --version | head -n 1 | sed 's/^.* //' | sed 's/[a-zA-Z]*$//' | cut -d' ' -f1`
++  flex_version=`$FLEX_PATH --version | grep -oE '\d+\.\d+\.(\d+)?'`
+   { $as_echo "$as_me:${as_lineno-$LINENO}: checking flex version $flex_version >= $flex_min_version" >&5
+ $as_echo_n "checking flex version $flex_version >= $flex_min_version... " >&6; }
+   if perl -w <<EOF

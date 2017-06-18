@@ -72,6 +72,7 @@ build_package_libffi() {
 		cp x86_64-pc-mingw32/libtool x86_64-pc-mingw32/libtool.orig
 		sed -e "s/allow_undefined_flag=\"unsupported\"/allow_undefined_flag=/g" x86_64-pc-mingw32/libtool.orig > x86_64-pc-mingw32/libtool
 	else
+		sed -e '/^includesdir/ s/$(libdir).*$/$(includedir)/' include/Makefile.in > include/Makefile.in.new && mv include/Makefile.in.new include/Makefile.in
 		./configure --prefix=$arch_prefix
 	fi
 	check_race_cond
@@ -104,6 +105,20 @@ build_package_gettext() {
 	make install
 }
 
+build_package_pcre() {
+	tar xvf $pkgdir/$pcre_file
+cd pcre-*
+if [ "$platform" == "mac" ]; then
+	CC="gcc -arch $target_arch" CXX="g++ -arch $target_arch" ./configure --host=$target_platform --prefix=$arch_prefix --with-internal-glib --enable-cxx --enable-jit --enable-shared --enable-pcre8 --enable-pcre16 --enable-utf --enable-unicode-properties
+else
+	./configure --prefix=$arch_prefix --enable-cxx --enable-jit --enable-shared --enable-pcre8 --enable-pcre16 --enable-utf --enable-unicode-properties
+fi
+check_race_cond
+make
+make install
+
+}
+
 build_package_glib() {
 	tar jxvf $pkgdir/$glib_file
 	cd glib-*
@@ -128,10 +143,10 @@ build_package_pkgconfig() {
 	tar zxvf $pkgdir/$pkgconfig_file
 	cd pkg-config-*
 	if [ "$platform" == "mac" ]; then
-		GLIB_CFLAGS="-I$arch_prefix/lib/glib-2.0/include -I$arch_prefix/include/glib-2.0" GLIB_LIBS="-L$arch_prefix/lib -lglib-2.0" CC="gcc -arch $target_arch" CXX="g++ -arch $target_arch" ./configure --host=$target_platform --prefix=$arch_prefix
+		GLIB_CFLAGS="-I$arch_prefix/lib/glib-2.0/include -I$arch_prefix/include/glib-2.0" GLIB_LIBS="-L$arch_prefix/lib -lglib-2.0" CC="gcc -arch $target_arch" CXX="g++ -arch $target_arch" ./configure --host=$target_platform --prefix=$arch_prefix --with-internal-glib
 	else
 		patch -p1 < $patchdir/pkgconfig_latest_glib.diff
-		GLIB_CFLAGS="-I$arch_prefix/lib/glib-2.0/include -I$arch_prefix/include/glib-2.0" GLIB_LIBS="-L$arch_prefix/lib -lglib-2.0" ./configure --prefix=$arch_prefix
+		GLIB_CFLAGS="-I$arch_prefix/lib/glib-2.0/include -I$arch_prefix/include/glib-2.0" GLIB_LIBS="-L$arch_prefix/lib -lglib-2.0" ./configure --prefix=$arch_prefix --with-internal-glib
 	fi
 	check_race_cond
 	make
@@ -166,7 +181,7 @@ build_package_libogg() {
 }
 
 build_package_libvorbis() {
-	tar jxvf $pkgdir/$libvorbis_file
+	tar xvf $pkgdir/$libvorbis_file
 	cd libvorbis-*
 	if [ "$platform" == "mac" ]; then
 		CC="gcc -arch $target_arch" CXX="g++ -arch $target_arch" ./configure --host=$target_platform --prefix=$arch_prefix
@@ -206,7 +221,7 @@ build_package_libspeex() {
 }
 
 build_package_orc() {
-	tar zxvf $pkgdir/$orc_file
+	tar xvf $pkgdir/$orc_file
 	cd orc-*
 	if [ "$platform" == "mac" ]; then
 		CC="gcc -arch $target_arch" CXX="g++ -arch $target_arch" ./configure --prefix=$arch_prefix
@@ -225,6 +240,7 @@ build_package_orc() {
 build_package_gstreamer() {
 	tar jxvf $pkgdir/$gstreamer_file
 	cd gstreamer-*
+	patch -p0 < $patchdir/gstreamer-check-flex.patch
 	if [ "$platform" == "mac" ]; then
 		CC="gcc -arch $target_arch" CXX="g++ -arch $target_arch" ./configure --host=$target_platform --prefix=$arch_prefix --disable-loadsave
 	else
