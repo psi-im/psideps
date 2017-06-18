@@ -3,7 +3,7 @@ VERSION = 1.0.2l
 
 include package_info
 
-../detect_platform.mk
+include ../detect_platform.mk
 all: $(DEFAULT_TARGET)
 
 default-win: dist
