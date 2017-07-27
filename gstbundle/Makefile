@@ -66,6 +66,10 @@ packages/$(libspeex_file):
 	mkdir -p packages
 	../fetch.sh $(libspeex_url) packages/$(libspeex_file)
 
+packages/$(libspeexdsp_file):
+	mkdir -p packages
+	../fetch.sh $(libspeexdsp_url) packages/$(libspeexdsp_file)
+
 packages/$(orc_file):
 	mkdir -p packages
 	../fetch.sh $(orc_url) packages/$(orc_file)
@@ -191,6 +195,16 @@ build/x86_64/libspeex/ok: packages/$(libspeex_file)
 	./build_package.sh libspeex x86_64 $(PREFIX) $(PWD)/install
 	touch build/x86_64/libspeex/ok
 
+build/i386/libspeexdsp/ok: packages/$(libspeexdsp_file)
+	mkdir -p build
+	./build_package.sh libspeexdsp i386 $(PREFIX) $(PWD)/install
+	touch build/i386/libspeexdsp/ok
+
+build/x86_64/libspeexdsp/ok: packages/$(libspeexdsp_file)
+	mkdir -p build
+	./build_package.sh libspeexdsp x86_64 $(PREFIX) $(PWD)/install
+	touch build/x86_64/libspeexdsp/ok
+
 build/i386/orc/ok: packages/$(orc_file)
 	mkdir -p build
 	./build_package.sh orc i386 $(PREFIX) $(PWD)/install
@@ -231,10 +245,10 @@ build/x86_64/gstgood/ok: packages/$(gstgood_file)
 	./build_package.sh gstgood x86_64 $(PREFIX) $(PWD)/install
 	touch build/x86_64/gstgood/ok
 
-dist/gstbundle-$(VERSION)-mac:  build/x86_64/gettext/ok  build/x86_64/glib/ok build/x86_64/pkgconfig/ok build/x86_64/libjpeg/ok build/x86_64/libogg/ok  build/x86_64/libvorbis/ok build/x86_64/libtheora/ok build/x86_64/libspeex/ok build/x86_64/orc/ok build/x86_64/gstreamer/ok build/x86_64/gstbase/ok build/x86_64/gstgood/ok
+dist/gstbundle-$(VERSION)-mac:  build/x86_64/gettext/ok  build/x86_64/glib/ok build/x86_64/pkgconfig/ok build/x86_64/libjpeg/ok build/x86_64/libogg/ok  build/x86_64/libvorbis/ok build/x86_64/libtheora/ok build/x86_64/libspeex/ok build/x86_64/libspeexdsp/ok build/x86_64/orc/ok build/x86_64/gstreamer/ok build/x86_64/gstbase/ok build/x86_64/gstgood/ok
 	./prep_dist.sh $(PWD)/install $(PREFIX) dist/gstbundle-$(VERSION)-mac
 
-dist/gstbundle-$(VERSION)-win: build/i386/libiconv/ok build/x86_64/libiconv/ok build/i386/libffi/ok build/x86_64/libffi/ok build/i386/gettext/ok build/x86_64/gettext/ok build/i386/glib/ok build/x86_64/glib/ok build/i386/pkgconfig/ok build/x86_64/pkgconfig/ok build/i386/libjpeg/ok build/x86_64/libjpeg/ok build/i386/libogg/ok build/x86_64/libogg/ok build/i386/libvorbis/ok build/x86_64/libvorbis/ok build/i386/libtheora/ok build/x86_64/libtheora/ok build/i386/libspeex/ok build/x86_64/libspeex/ok build/i386/orc/ok build/x86_64/orc/ok build/i386/gstreamer/ok build/x86_64/gstreamer/ok build/i386/gstbase/ok build/x86_64/gstbase/ok build/i386/gstgood/ok build/x86_64/gstgood/ok
+dist/gstbundle-$(VERSION)-win: build/i386/libiconv/ok build/x86_64/libiconv/ok build/i386/libffi/ok build/x86_64/libffi/ok build/i386/gettext/ok build/x86_64/gettext/ok build/i386/glib/ok build/x86_64/glib/ok build/i386/pkgconfig/ok build/x86_64/pkgconfig/ok build/i386/libjpeg/ok build/x86_64/libjpeg/ok build/i386/libogg/ok build/x86_64/libogg/ok build/i386/libvorbis/ok build/x86_64/libvorbis/ok build/i386/libtheora/ok build/x86_64/libtheora/ok build/i386/libspeex/ok build/x86_64/libspeex/ok build/i386/libspeexdsp/ok build/x86_64/libspeexdsp/ok build/i386/orc/ok build/x86_64/orc/ok build/i386/gstreamer/ok build/x86_64/gstreamer/ok build/i386/gstbase/ok build/x86_64/gstbase/ok build/i386/gstgood/ok build/x86_64/gstgood/ok
 	./prep_dist.sh $(PWD)/install $(PREFIX) dist/gstbundle-$(VERSION)-win
 
 gstbundle-$(VERSION)-mac.tar.bz2: dist/gstbundle-$(VERSION)-mac
