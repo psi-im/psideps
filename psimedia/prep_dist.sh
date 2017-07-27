@@ -41,15 +41,12 @@ cleanlibpaths() {
 
 mkdir -p $dist_base
 
-TARGET_ARCHES="i386 x86_64"
-
 if [ "$platform" == "mac" ]; then
+	TARGET_ARCHES="x86_64"
+
 	GST_PLUGINS=
-	for n in `find $destdir$base_prefix/i386/gstreamer-0.10 -name \*.dylib`; do
+	for n in `find $destdir$base_prefix/x86_64/gstreamer-0.10 -name \*.dylib`; do
 		base_n=`basename $n`
-		if [ ! -f "$destdir$base_prefix/x86_64/gstreamer-0.10/$base_n" ]; then
-			continue
-		fi
 		GST_PLUGINS="$GST_PLUGINS $base_n"
 	done
 
@@ -108,6 +105,8 @@ if [ "$platform" == "mac" ]; then
 	mv $dist_base/uni/demo $dist_base/uni/plugins $dist_base/uni/gstreamer-0.10 $dist_base
 	rmdir $dist_base/uni
 else
+	TARGET_ARCHES="i386 x86_64"
+
 	for target_arch in $TARGET_ARCHES; do
 		target_base=$destdir$base_prefix/$target_arch
 		target_dist_base=$dist_base/$target_arch
