@@ -96,6 +96,7 @@ build_package_psimedia() {
 		cp gstprovider/gstprovider.dll $arch_prefix/plugins
 		cp gstprovider/gstelements/shared/lib/*.dll $arch_prefix/gstreamer-0.10
 	else
+		qconf
 		./configure --release
 		if [ "$target_arch" == "x86_64" ]; then
 			echo "contains(QT_CONFIG,x86_64):CONFIG += x86_64" >> conf.pri
@@ -104,9 +105,11 @@ build_package_psimedia() {
 			echo "contains(QT_CONFIG,x86):CONFIG += x86" >> conf.pri
 			echo "contains(QT_CONFIG,x86):CONFIG += x86" >> demo/demo.pro
 		fi
-		echo "QMAKE_MAC_SDK = /Developer/SDKs/MacOSX10.5.sdk" >> conf.pri
-		echo "QMAKE_MAC_SDK = /Developer/SDKs/MacOSX10.5.sdk" >> demo/demo.pro
-		$QTDIR/bin/qmake
+		#echo "QMAKE_MAC_SDK = /Developer/SDKs/MacOSX10.5.sdk" >> conf.pri
+		#echo "QMAKE_MAC_SDK = /Developer/SDKs/MacOSX10.5.sdk" >> demo/demo.pro
+		echo "QMAKE_CXXFLAGS += -Wno-reserved-user-defined-literal" >> conf.pri
+		echo "QMAKE_CXXFLAGS += -Wno-reserved-user-defined-literal" >> demo/demo.pro
+		#$QTDIR/bin/qmake
 		make
 
 		# build shared plugins too

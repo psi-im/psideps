@@ -39,7 +39,7 @@ build/x86_64/psimedia/ok: packages/$(psimedia_file)
 	./build_package.sh psimedia x86_64 $(PREFIX) $(PWD)/install
 	touch build/x86_64/psimedia/ok
 
-dist/psimedia-$(VERSION)-mac: build/i386/psimedia/ok build/x86_64/psimedia/ok
+dist/psimedia-$(VERSION)-mac: build/x86_64/psimedia/ok
 	./prep_dist.sh $(PWD)/install $(PREFIX) dist/psimedia-$(VERSION)-mac
 
 dist/psimedia-$(VERSION)-win: build/i386/psimedia/ok build/x86_64/psimedia/ok
