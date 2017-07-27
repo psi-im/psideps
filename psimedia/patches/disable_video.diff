@@ -27,14 +27,14 @@ diff -ru psimedia-20120725.orig/gstprovider/gstthread.cpp psimedia-20120725/gstp
 --- psimedia-20120725.orig/gstprovider/gstthread.cpp	2012-07-25 19:59:07.000000000 -0700
 +++ psimedia-20120725/gstprovider/gstthread.cpp	2012-07-25 20:10:58.000000000 -0700
 @@ -230,7 +230,7 @@
- #if defined(Q_OS_MAC)
- 			reqelem
- 			<< "osxaudiosrc" << "osxaudiosink"
--			<< "osxvideosrc";
-+			/*<< "osxvideosrc"*/;
+ 		reqelem
+ 			<< "osxaudiosrc" << "osxaudiosink";
+ # ifdef HAVE_OSXVIDIO
+-		reqelem << "osxvideosrc";
++		/*reqelem << "osxvideosrc";*/
+ # endif
  #elif defined(Q_OS_LINUX)
  			reqelem
- 			<< "alsasrc" << "alsasink"
 @@ -241,7 +241,7 @@
  #elif defined(Q_OS_WIN)
  			reqelem
