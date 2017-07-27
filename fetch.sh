@@ -13,7 +13,7 @@ else
 	CURL=`which curl`
 	if [ ! -z "$CURL" ]; then
 		echo $CURL -o $2 $1
-		$CURL -o $2 $1
+		$CURL -L -o $2 $1
 	else
 		echo "error: need wget or curl in path"
 		exit 1
